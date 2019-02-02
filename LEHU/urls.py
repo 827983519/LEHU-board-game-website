@@ -5,6 +5,10 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-    path('',views.index),
+    url('^$',views.main,name='main'),
+    url('^login',views.login,name='login'),
+    url('^logout',views.logout,name='logout'),
+    url('^register',views.register,name='register'),
+    #url(r'^login/',)
 
 ]
