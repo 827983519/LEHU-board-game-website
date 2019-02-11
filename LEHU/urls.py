@@ -11,6 +11,7 @@ urlpatterns = [
     url('^register',views.register,name='register'),
     url('^upload',views.upload),
     url('^profile',views.modify_profile),
+    url('^logout',views.logout),
     #path()
     url('^register?',views.upload_register)
 

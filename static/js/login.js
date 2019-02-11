@@ -20,9 +20,10 @@ $("#login").click(function (e) {
         password
     }, function (msg) {
         if (msg.user === 'success') {
-            window.location.href = "./index.html";
+            window.location.href = "./";
         } else {
-            alert("User name or password is wrong.");
+            //alert("User name or password is wrong.");
+            $('#message').html(msg.msg);
         }
     }, "json");
 });

@@ -17,22 +17,22 @@
     <form class="panel">
         <div class="field">
             <label for="username">User Name</label>
-            <input type="text" name="username">
+            <input type="text" name="username" value={{valid_data.username}}>
         </div>
 
         <div class="field">
             <label for="password">Password</label>
-            <input type="password" name="password">
+            <input type="password" name="password" value={{valid_data.password}}>
         </div>
 
         <div class="field">
             <label for="confirmPassword">Confirm Password</label>
-            <input type="password" name="confirmPassword">
+            <input type="password" name="confirmPassword" value={{valid_data.confirmPassword}}>
         </div>
 
         <div class="field">
             <label for="email">Email Address</label>
-            <input type="email" name="email">
+            <input type="email" name="email" value={{valid_data.email}}>
         </div>
 
         <div class="field">
@@ -57,6 +57,7 @@
             <span>Already got an account?<a href="login.html">Log in</a></span>
         </div>
     </form>
+    <<h1>{{msg}}</h1>
 </body>
 
 

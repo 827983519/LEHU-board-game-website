@@ -12,6 +12,16 @@ img.logo {
     margin: auto;
 }
 
+span.msg{
+  color: red;
+  width: 50%;
+  top: 18%;
+  position: fixed;
+  left: 70%;
+  bottom: 0;
+  margin: auto;
+}
+
 form.panel {
     height: fit-content;
     position: fixed;

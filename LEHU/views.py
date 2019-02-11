@@ -15,7 +15,7 @@ class loginForm(Form):
 class registerForm(Form):
     username = fields.CharField(max_length=20,min_length=6,required=True)
     password =  fields.CharField(max_length=20,min_length=6,required=True)
-    confirm_password =  fields.CharField(max_length=20,min_length=6,required=True)
+    confirmPassword =  fields.CharField(max_length=20,min_length=6,required=True)
     email = fields.EmailField(max_length=20,min_length=6,required=True)
     gender = fields.CharField(max_length = 7,required=True)
 
@@ -110,7 +110,7 @@ def login(request):
         return render(request,'login_new.html')
     if request.method == "POST":
         input = loginForm(request.POST)
-        a = {'user':'fail'}
+        a = {'user':'fail','msg':'Username or password is worng'}
         #数据格式不合适,登录失败
         if not input.is_valid():
             return HttpResponse(json.dumps(a))
@@ -145,6 +145,45 @@ def upload_register(request):
     return HttpResponse('Hello')
 
 
+
+
+def register(request):
+    if not request.GET.get('username',None):
+        return render(request,'register_new.html')
+    if request.GET.get('username',None):
+        input = registerForm(request.GET)
+        if not input.is_valid():
+            a = {'register':'success','msg':'Wrong input format'}
+            valid_data = input.cleaned_data
+            return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+            #return HttpResponse(json.dumps(a))
+        Select_user = User.objects.filter(user_username= input.cleaned_data['username'])
+
+        if len(Select_user)>0:
+            a = {'register':'fail','msg':'Usename already exists'}
+            valid_data = input.cleaned_data
+            #return HttpResponse(json.dumps(a))
+            valid_data['username'] = ''
+            return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+
+        if input.cleaned_data['password'] != input.cleaned_data['confirmPassword']:
+            a = {'register':'fail','msg':'Inconsistent password entered'}
+            #return HttpResponse(json.dumps(ad_)
+            valid_data = input.cleaned_data
+            valid_data['password'] = ''
+            valid_data['confirmPassword'] = ''
+            print(valid_data)
+            return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+
+        else:
+            user = User.objects.create(user_username = input.cleaned_data['username'],
+                                       user_password = make_password(input.cleaned_data['password']),
+                                       user_email = input.cleaned_data['email'],
+                                       user_gender = input.cleaned_data['gender']
+                                       )
+            return redirect('/login')
+
+'''
 def register(request):
     if request.method == 'GET':
         print('herer')
@@ -177,6 +216,7 @@ def register(request):
                                        user_gender = input.cleaned_data['gender']
                                        )
 
+'''
 
 def auth(func):
     def inner(request,*args,**kwargs):
