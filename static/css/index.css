@@ -1,0 +1,59 @@
+#recommended {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#recommended>div {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+#recommended>div>.rec_img {
+    width: 19%;
+    padding: 9.5% 0;
+    background-position: center center;
+}
+
+#recommended>img {
+    height: 32px;
+    margin: 12px;
+}
+
+#lobby {
+    border: solid #f2c44c 4px;
+}
+
+#lobby>div {
+    background-color: white;
+    margin: 6px 8px;
+}
+
+h5 {
+    color: #f2c44c;
+}
+
+#search {
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 32px;
+}
+
+#search>h5 {
+    float: left;
+    margin: 0;
+}
+
+#search>input {
+    width: 60%;
+    border-radius: 8px;
+    border: 0;
+    height: 24px;
+}
+
+#search>img {
+    height: 20px;
+}

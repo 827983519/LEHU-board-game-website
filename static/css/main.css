@@ -1,0 +1,42 @@
+body {
+    background: #231f20;
+}
+
+.header {
+    display: flex;
+    height: 63px;
+}
+
+.header .logo {
+    position: relative;
+    height: 63px;
+    width: 240px;
+}
+
+.header .logo img {
+    position: absolute;
+    height: 40px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.header .nav {
+    height: 63px;
+    flex-grow: 1;
+    background-color: #f2c44c;
+}
+
+.header .nav img {
+    float: right;
+    background-color: transparent;
+    margin-top: 15px;
+    height: 33px;
+    margin-right: 15px;
+}
+
+.content {
+    padding: 0 16px;
+}

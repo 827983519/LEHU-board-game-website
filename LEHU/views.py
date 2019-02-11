@@ -17,8 +17,7 @@ class registerForm(Form):
     password =  fields.CharField(max_length=20,min_length=6,required=True)
     confirm_password =  fields.CharField(max_length=20,min_length=6,required=True)
     email = fields.EmailField(max_length=20,min_length=6,required=True)
-    #gender = fields.ChoiceField(initial='Male',choices=(("Female", u'Female'), ("Male", u'Male')),widget=widgets.RadioSelect)
-    gender = fields.CharField(max_length = 7,initial='Male',widget=widgets.RadioSelect(choices=(("Female", 'Female'), ("Male",'Male'))))
+    gender = fields.CharField(max_length = 7,required=True)
 
 
 
@@ -30,6 +29,7 @@ class pictureForm(Form):
 
 def upload(request):
     if request.method == 'GET':
+        #return render(request,'index_new.html')
         return render(request,'upload.html')
     if request.method == "POST":
         imgs=request.FILES.get('img')
@@ -70,18 +70,16 @@ def modify_profile(request):
     #显示页面
     if request.method == 'GET':
         Session_logname = request.session.get('logname',None)
-        if not Session_logname:
-            return redirect('/login')
-
-
-        username = Select_user[0].user_username
-        bio = Select_user[0].user_bio
-        favourite = Select_user[0].user_favouritegame
-        email = Select_user[0].user_email
-        province = Select_user[0].user_province
-        cellphone = Select_user[0].user_cellphone
-        photo = Select_user[0].photo
-        return HttpResponse('find')
+        #if not Session_logname:
+        #    return redirect('/login')
+        # username = Select_user[0].user_username
+        # bio = Select_user[0].user_bio
+        # favourite = Select_user[0].user_favouritegame
+        # email = Select_user[0].user_email
+        # province = Select_user[0].user_province
+        # cellphone = Select_user[0].user_cellphone
+        # photo = Select_user[0].photo
+        return render(request,'profile_new.html')
 
     if request.method == 'POST':
         Select_user = User.objects.filter(user_username=Session_username)
@@ -107,19 +105,16 @@ def modify_profile(request):
 
         return render(request,'showimg.html',{'imgs':new})
 
-
-
 def login(request):
     if request.method=='GET':
-        return render(request,'loginC.html')
+        return render(request,'login_new.html')
     if request.method == "POST":
         input = loginForm(request.POST)
-        a = {'user':'fail','msg':message}
+        a = {'user':'fail'}
         #数据格式不合适,登录失败
         if not input.is_valid():
-            message = " Incorrect username or password. "
-            #return render(request,'login.html',{'message':message})
             return HttpResponse(json.dumps(a))
+
         Post_username = input.cleaned_data['username']
         Post_password = input.cleaned_data['password']
         Select_user = User.objects.filter(user_username=Post_username)
@@ -145,20 +140,27 @@ def login(request):
 
 
 
+def upload_register(request):
+    #request.GET.
+    return HttpResponse('Hello')
+
+
 def register(request):
     if request.method == 'GET':
-        return render(request,'register.html')
-    if request.method == 'POST':
-        input = registerForm(request.POST)
+        print('herer')
+        return render(request,'register_new.html')
 
+    #if request.method == 'POST':
+    if request.GET.get('username',None):
+        #input = registerForm(request.GET)
+        print('in here')
         if not input.is_valid():
-            #return render(request,'register.html',{'errors':input.errors})
-            a = {'register':'fail','msg':'Wrong input format'}
-            return HttpResponse(json.dumps(a))
-
+            a = {'register':'success','msg':'Wrong input format'}
+            #return HttpResponse(json.dumps(a))
+        print(input.cleaned_data['username'])
         Select_user = User.objects.filter(user_username= input.cleaned_data['username'])
 
-        if len(Select_user>0):
+        if len(Select_user)>0:
             a = {'register':'fail','msg':'Usename already exists'}
             return HttpResponse(json.dumps(a))
             #return render(request,'register.html',{'errors':errors})
@@ -167,27 +169,13 @@ def register(request):
             a = {'register':'fail','msg':'Inconsistent password entered'}
             return HttpResponse(json.dumps(a))
             #return render(request,'register.html',{'errors':errors})
+
         else:
             user = User.objects.create(user_username = input.cleaned_data['username'],
                                        user_password = make_password(input.cleaned_data['password']),
-                                       user_nickname = 'No name',
-                                       user_email = input.cleaned_data['email']
+                                       user_email = input.cleaned_data['email'],
                                        user_gender = input.cleaned_data['gender']
-                                                   )
-
-
-# def login(request):
-#     if request.method == 'GET':
-#         return render(request,'login.html')
-#     else:
-#         obj = loginForm(request.POST)
-#         if obj.is_valid():
-#             #obj.cleaned_data
-#             return HttpResponse('Hello')
-#         else:
-#             return render(request,'login.html',{'error':obj.errors})
-
-
+                                       )
 
 
 def auth(func):
@@ -206,7 +194,7 @@ def auth(func):
 @auth
 def main(request):
     #print
-    return render(request,'main.html')
+    return render(request,'index_new.html')
 
 
 
