@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User
+from .models import User,Picture
+
 
 class UserAdmin(admin.ModelAdmin):
 
@@ -12,4 +13,11 @@ class UserAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 
+class PictureAdmin(admin.ModelAdmin):
+
+    list_display = ['username','Image']
+
+
+
 admin.site.register(User,UserAdmin)
+admin.site.register(Picture,PictureAdmin)

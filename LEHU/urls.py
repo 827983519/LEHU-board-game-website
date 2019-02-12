@@ -13,6 +13,5 @@ urlpatterns = [
     url('^profile',views.modify_profile),
     url('^logout',views.logout),
     #path()
-    url('^register?',views.upload_register)
 
 ]

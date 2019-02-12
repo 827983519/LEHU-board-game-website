@@ -16,11 +16,11 @@
 <body>
     <div class="header">
         <div class="logo">
-            <img src="/static/assest/mainpage logo.svg">
+            <a href="./"><img src="/static/assest/mainpage logo.svg"></a>
         </div>
         <div class="nav">
-            <img src="/static/assest/log out icon.svg" id="logout" />
-            <img src="/static/assest/profile icon.svg" id="profile" />
+          <a href="/logout"><img src="/static/assest/log out icon.svg" id="logout" /></a>
+          <a href="/profile"><img src="/static/assest/profile icon.svg" id="profile" /></a>
             <img src="/static/assest/group icon.svg" id="group" />
             <img src="/static/assest/activity icon.svg" id="activities" />
             <img src="/static/assest/post icon.svg" id="post" />
@@ -30,7 +30,7 @@
         <div id="head">
             <h1>PROFILE</h1>
             <img id="edit" src="/static/assest/edit icon.svg">
-            <img id="save" src="/static/assest/save icon.svg">
+            <img id="save" src="/static/assest/save icon.svg" >
             <img id="cancel" src="/static/assest/cancel icon.svg">
         </div>
         <div id="body">
@@ -41,22 +41,22 @@
             <div id="info">
                 <h1>Basic Infomation</h1>
                 <div class="field">
-                    <label for="username">User Name</label>
-                    <div class="value" name="username"></div>
+                    <label for="nickname">Nickname</label>
+                    <div class="value" name="nickname">{{profile.nickname}}</div>
                     <div class="input">
-                        <input type="text" name="username">
+                        <input type="text" name="nickname" id="nickname" value={{profile.nickname}}>
                     </div>
                 </div>
                 <div class="field">
                     <label for="bio">Bio</label>
-                    <div class="value" name="bio"></div>
+                    <div class="value" name="bio">{{profile.bio}}</div>
                     <div class="input">
-                        <textarea name="bio"></textarea>
+                        <textarea name="bio" id="bio">{{profile.bio}}</textarea>
                     </div>
                 </div>
                 <div class="field">
                     <label for="favorite">Favourite Board Games</label>
-                    <div class="value" name="favorite"></div>
+                    <div class="value" name="favorite">{{profile.favouritegame}}</div>
                     <div class="input">
                         <select name=""></select>
                         <select name=""></select>
@@ -66,16 +66,30 @@
                 <h1>Contact Infomation</h1>
                 <div class="field">
                     <label for="email">Email Address</label>
-                    <div class="value" name="email"></div>
+                    <div class="value" name="email">{{profile.email}}</div>
                     <div class="input">
-                        <input type="text" name="email">
+                        <input type="text" name="email" id="email" value={{profile.email}}>
                     </div>
                 </div>
                 <div class="field">
                     <label for="phone">Cellphone Number</label>
-                    <div class="value" name="phone"></div>
+                    <div class="value" name="phone">{{profile.cellphone}}</div>
                     <div class="input">
-                        <input type="text" name="phone">
+                        <input type="text" name="phone" id="cellphone" value={{profile.cellphone}}>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="province">Province</label>
+                    <div class="value" name="province">{{profile.province}}</div>
+                    <div class="input">
+                        <input type="text" name="province" id="province" value={{profile.province}}>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="city">City</label>
+                    <div class="value" name="city">{{profile.city}}</div>
+                    <div class="input">
+                        <input type="text" name="city" id="city" value={{profile.city}}>
                     </div>
                 </div>
             </div>

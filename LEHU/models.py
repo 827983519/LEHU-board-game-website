@@ -9,12 +9,22 @@ blank
 注意，该项与null是不同的，null纯粹是与数据库相关的。而blank则与验证相关。如果一个字段设置为blank=True，表单验证时允许输入一个空值。而blank=False，则该项必需输入数据。
 '''
 
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user/{0}/{1}'.format(instance.username, filename)
+
+
 class Picture(models.Model):
-    Image = models.ImageField(upload_to='user/', blank=True, null=True)
-    def __str__(self):
-        return self.Image
+    Image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+    username = models.CharField(verbose_name='Username',max_length = 20,null=True,blank=True)
 
 
+
+
+
+def profile_picture_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user/{0}/{1}'.format(instance.user_username, filename)
 
 class User(models.Model):
     GENDER_CHOICES = (
@@ -23,6 +33,7 @@ class User(models.Model):
     )
     #user_id = models.IntegerField(verbose_name='ID',primary_key=True)
     user_username = models.CharField(verbose_name='Username',primary_key=True,max_length = 20)
+    user_nickname = models.CharField(verbose_name='Nickname',max_length = 20,null=True,blank=True)
     user_password = models.CharField(verbose_name='Password',max_length = 100)
     user_gender = models.CharField(verbose_name='Gender',max_length=10,  choices=(("Female", u'Female'), ("Male", u'Male')), default='Male')
     user_createTime = models.DateField(verbose_name='CreatTime',auto_now_add=True)
@@ -32,7 +43,7 @@ class User(models.Model):
     user_bio = models.CharField(verbose_name='Bio',max_length=100,null=True,blank=True)
     user_favouritegame = models.CharField(verbose_name='Favourite game',max_length=50,null=True,blank=True)
     user_cellphone = models.CharField(verbose_name='Cell phone',max_length = 15,null=True,blank=True)
-    user_image = models.ImageField(upload_to='user', blank=True, null=True)
+    user_image = models.ImageField(upload_to=profile_picture_path, blank=True, null=True)
 
 
     '''

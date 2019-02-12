@@ -47,6 +47,14 @@
     text-align: center;
 }
 
+#upload{
+  border: 0;
+  width: 62.124px;
+  height: 23.328px;
+  background-image: url("../assest/profile\ change photo icon.svg");
+  background-color: transparent;
+}
+
 #change_photo {
     display: block;
     width: 160px;
