@@ -1,0 +1,69 @@
+body {
+    background: url("../assest/bk1.jpg") no-repeat fixed center center;
+    background-size: cover;
+}
+
+img.logo {
+    width: 20%;
+    position: fixed;
+    top: 0;
+    left: 5%;
+    bottom: 0;
+    margin: auto;
+}
+
+span.msg{
+  color: red;
+  width: 50%;
+  top: 18%;
+  position: fixed;
+  left: 70%;
+  bottom: 0;
+  margin: auto;
+}
+
+form.panel {
+    height: fit-content;
+    position: fixed;
+    right: 5%;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 40%;
+}
+
+.field {
+    margin-bottom: 15px;
+}
+
+.submit {
+    text-align: center;
+}
+
+.field>label {
+    display: inline-block;
+    text-align: right;
+    width: 45%;
+    margin-right: 5%;
+}
+
+.field>input {
+    height: 18px;
+    border-radius: 18px;
+}
+
+#login {
+    border: 0;
+    width: 62.124px;
+    height: 23.328px;
+    background-image: url("../assest/login\ icon.svg");
+    background-color: transparent;
+}
+
+#signup {
+    border: 0;
+    width: 62.124px;
+    height: 23.328px;
+    background-image: url("../assest/signup\ icon.svg");
+    background-color: transparent;
+}

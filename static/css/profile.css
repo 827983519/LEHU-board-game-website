@@ -1,0 +1,110 @@
+#head {
+    border-bottom: solid #f2c44c 3px;
+    position: relative;
+}
+
+#head h1 {
+    margin: 4px 0;
+    display: inline-block;
+    color: #f2c44c;
+}
+
+#edit {
+    position: absolute;
+    right: 0;
+    bottom: 3px;
+    height: 33px;
+}
+
+#save {
+    position: absolute;
+    right: 160px;
+    bottom: 3px;
+    height: 33px;
+    display: none;
+}
+
+#cancel {
+    position: absolute;
+    right: 0;
+    bottom: 3px;
+    display: none;
+    height: 33px;
+}
+
+#body {
+    display: flex;
+}
+
+#photo {
+    display: block;
+    height: 160px;
+    width: 160px;
+    border-radius: 160px;
+    margin-top: 24px;
+    background-color: #f2c44c;
+    line-height: 160px;
+    text-align: center;
+}
+
+#upload{
+  border: 0;
+  width: 62.124px;
+  height: 23.328px;
+  background-image: url("../assest/profile\ change photo icon.svg");
+  background-color: transparent;
+}
+
+#change_photo {
+    display: block;
+    width: 160px;
+    margin-top: 24px;
+}
+
+#info {
+    padding: 0 16px;
+    flex-grow: 1;
+}
+
+#info>h1 {
+    color: #f2c44c;
+}
+
+#add_game {
+    height: 18px;
+}
+
+.field {
+    display: flex;
+    margin-top: 16px;
+}
+
+.field>label {
+    color: #f2c44c;
+    display: inline-block;
+    text-align: right;
+    width: 240px;
+    margin-right: 15px;
+}
+
+.field>.value {
+    flex-grow: 1;
+    color: #f2c44c;
+    display: inline-block;
+}
+
+.field>.input {
+    display: none;
+    flex-grow: 1;
+}
+
+.input>textarea {
+    width: 100%;
+    border-radius: 18px;
+}
+
+.input>input {
+    height: 18px;
+    width: 100%;
+    border-radius: 18px;
+}
