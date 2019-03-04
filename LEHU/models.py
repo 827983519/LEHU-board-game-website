@@ -4,6 +4,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.forms import ModelForm
+from django import forms
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
@@ -13,14 +14,21 @@ class Activity(models.Model):
     activity_title = models.CharField(max_length=200)
     activity_content = models.TextField(null=True, blank =True)
 
-    # STATUS_CHOICES = (
-    #     (1, 'Open'),
-    #     (2, 'Closed'),
-    #     (3, 'On-going'),
-    #     (4, 'Cancel'),
-    #     (5, 'Pending'),
-    # )
-    # status = models.IntegerField(choices=STATUS_CHOICES, default=1)
+    STATUS_CHOICES = (
+        (1, 'Open'),
+        (2, 'Closed'),
+        (3, 'Full'),
+        (4, 'Cancel'),
+    )
+    status = models.IntegerField(choices=STATUS_CHOICES, default=1)
+
+    CATEGORY_CHOICES = (
+        (1, 'Card'),
+        (2, 'Chess'),
+        (3, 'BoardGames'),
+        (4, 'Others'),
+    )
+    Category = models.IntegerField(choices=CATEGORY_CHOICES, default=1)
 
     owner = models.CharField(max_length=200, null=True, blank =True)
     numberofmem = models.PositiveSmallIntegerField('Number of People', null=True, blank =True)
@@ -28,8 +36,13 @@ class Activity(models.Model):
     # pub_date = models.DateTimeField(auto_now_add=True, 'date published')
     pub_date = models.DateTimeField(auto_now_add=True)
     now = timezone.now()
-    start_time = models.DateTimeField('start time', default=now,blank=True)
-    duration = models.TimeField('duration', null = True)
+    start_date = models.DateField('start date')
+    start_time = models.TimeField('start time', null = True,blank=True)
+    # duration = models.DurationField('duration', null=True,
+    #                                          blank=True,
+    #                                          default='00:05:00',
+    #                                          help_text=_('[HH:[MM:]]ss[.uuuuuu] format'))
+    # duration = models.TimeField('duration', null = True,blank=True)
     location = models.TextField(null = True, blank = True)
     def publish(self):
         self.pub_date = timezone.now()
@@ -39,6 +52,11 @@ class Activity(models.Model):
     # def was_published_recently(self):
     #     now = timezone.now()
     #     return now - datetime.timedelta(days = 1) <= self.pub_date <= now
+
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class ActivityForm(ModelForm):
     #  def __init__(self, *args, **kwargs): 
@@ -55,11 +73,16 @@ class ActivityForm(ModelForm):
     class Meta:
         model = Activity
         now = timezone.now()
-        fields = []
-        labels = {
-            'numberofmem': _('Number of people'),
-        }
+        fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
+        # widgets = {
+        #     'duration': TimeInput()
+        # }
+
         #start_time = forms.DateTimeField(initial=now, required=False)
+
+class Participant(models.Model):
+    activity_id = models.ForeignKey('Activity',on_delete=models.CASCADE)
+    participant = models.CharField(max_length=20)
 
 # '''
 # null

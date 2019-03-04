@@ -20,13 +20,13 @@ class IndexView(generic.ListView):
 class ActivityPostView(generic.CreateView):
     model = Activity
     template_name = 'LEHU/post.html'
-    fields = ['activity_title', 'activity_content', 'owner', 'numberofmem', 'budget', 'start_time', 'duration', 'location']
+    fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
 
     def form_valid(self, form):
         self.object = form.save()
     # do something with self.object
     # remember the import: from django.http import HttpResponseRedirect
-        return HttpResponseRedirect('/post/list')
+        return HttpResponseRedirect('/index')
 
 class PostListView(generic.ListView):
     model = Activity
