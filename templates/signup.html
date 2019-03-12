@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>signup</title>
+
+    <link rel="stylesheet" href="./css/public.css">
+</head>
+
+<body>
+    <img src="./assest/LOGO.svg" class="logo" />
+    <form class="panel">
+        <div class="field">
+            <label for="username">User Name</label>
+            <input type="text" name="username">
+        </div>
+
+        <div class="field">
+            <label for="password">Password</label>
+            <input type="password" name="password">
+        </div>
+
+        <div class="field">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" name="confirmPassword">
+        </div>
+
+        <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" name="email">
+        </div>
+
+        <div class="field">
+            <label for="gender">Gender</label>
+            <select name="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+
+        <div class="field submit">
+            <input type="checkbox" name="agree" />
+            <span>I agree to the <a href="#">LEHU terms & conditions</a> and <a href="#">Private Policy</a></span>
+        </div>
+
+        <div class="field submit">
+            <button id="signup"></button>
+        </div>
+
+        <div class="field submit">
+            <span>Already got an account?<a href="login.html">Log in</a></span>
+        </div>
+    </form>
+</body>
+
+</html>

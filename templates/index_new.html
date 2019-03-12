@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>LEHU</title>
+    <link rel="stylesheet" href="/static/css/public.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <script src="/static/js/index.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="./"><img src="/static/assest/mainpage logo.svg"></a>
+        </div>
+        <div class="nav">
+            <a href="/logout"><img src="/static/assest/log out icon.svg" id="logout" /></a>
+            <a href="/profile"><img src="/static/assest/profile icon.svg" id="profile" /></a>
+            <a href="/message"><img src="/static/assest/message+icon.svg" id="group" /></a>
+            <a href="/activity"><img src="/static/assest/activity icon.svg" id="activities" /></a>
+            <img src="/static/assest/post icon.svg" id="post" />
+        </div>
+    </div>
+    <div class="content">
+        <h5>TRENDING</h5>
+        <div id="recommended">
+            <div>
+            </div>
+            <img src="/static/assest/refresh.svg">
+        </div>
+        <div id="search">
+            <h5>SEARCH</h5>
+            <input type="text">
+            <img src="/static/assest/search.svg" alt="search">
+            <label for="meeting">Date：</label><input type="datetime-local" value="2015-09-24T13:59:59"/>
+        </div>
+        <h5>LOBBY</h5>
+        <div id="lobby">
+
+        </div>
+    </div>
+</body>
+
+</html>

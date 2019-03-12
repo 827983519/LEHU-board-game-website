@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    mainpage
+  </title>
+
+</head>
+
+
+<body>
+
+  <form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="img">
+  <button type="submit">上传</button>
+  </form>
+
+</body>
+</html>

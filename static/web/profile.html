@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/public.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/profile.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="./js/profile.js"></script>
+    <title>Profile</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="./assest/mainpage logo.svg">
+        </div>
+        <div class="nav">
+            <img src="./assest/log out icon.svg" id="logout" />
+            <img src="./assest/profile icon.svg" id="profile" />
+            <img src="./assest/group icon.svg" id="group" />
+            <img src="./assest/activity icon.svg" id="activities" />
+            <img src="./assest/post icon.svg" id="post" />
+        </div>
+    </div>
+    <div class="content">
+        <div id="head">
+            <h1>PROFILE</h1>
+            <img id="edit" src="./assest/edit icon.svg">
+            <img id="save" src="./assest/save icon.svg">
+            <img id="cancel" src="./assest/cancel icon.svg">
+        </div>
+        <div id="body">
+            <div>
+                <img id="photo" alt="[photo]">
+                <img id="change_photo" src="./assest/change photo icon.svg">
+            </div>
+            <div id="info">
+                <h1>Basic Infomation</h1>
+                <div class="field">
+                    <label for="username">User Name</label>
+                    <div class="value" name="username"></div>
+                    <div class="input">
+                        <input type="text" name="username">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="bio">Bio</label>
+                    <div class="value" name="bio"></div>
+                    <div class="input">
+                        <textarea name="bio"></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="favorite">Favourite Board Games</label>
+                    <div class="value" name="favorite"></div>
+                    <div class="input">
+                        <select name=""></select>
+                        <select name=""></select>
+                        <img src="./assest/add board games icon.svg" id="add_game" />
+                    </div>
+                </div>
+                <h1>Contact Infomation</h1>
+                <div class="field">
+                    <label for="email">Email Address</label>
+                    <div class="value" name="email"></div>
+                    <div class="input">
+                        <input type="text" name="email">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="phone">Cellphone Number</label>
+                    <div class="value" name="phone"></div>
+                    <div class="input">
+                        <input type="text" name="phone">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
