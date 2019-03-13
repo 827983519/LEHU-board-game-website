@@ -22,7 +22,11 @@
         <div class="nav">
             <a href="/logout"><img src="/static/assest/log out icon.svg" id="logout" /></a>
             <a href="/profile"><img src="/static/assest/profile icon.svg" id="profile" /></a>
+            {%if Have_message == 0%}
             <a href="/message"><img src="/static/assest/message+icon.svg" id="group" /></a>
+            {%else%}
+            <a href="/message"><img src="/static/assest/message+icon+new.svg" id="group" /></a>
+            {%endif%}
             <a href="/activity"><img src="/static/assest/activity icon.svg" id="activities" /></a>
             <img src="/static/assest/post icon.svg" id="post" />
         </div>

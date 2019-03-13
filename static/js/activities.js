@@ -2,6 +2,10 @@ $(function () {
     $("#history").click(function () {
         location.href = "/history";
     });
+
+    $("#allmessage").click(function () {
+        location.href = "/allmessage";
+    });
 /*
   $(".single_activity").click(function () {
      var adom = document.getElementsByClassName('invisible');
@@ -15,11 +19,6 @@ $(function () {
         location.href = "event.html";
     });
 
-    $(".content").click(function () {
-         var a = getElementById('content').value;
-         console.log(a);
-          location.href = "event.html";
-      });
 
     function changeURL(activity_id) {
       var a = 'details/' + activity_id;
@@ -29,14 +28,3 @@ $(function () {
 
 
 })
-
-function changeURL(activity_id) {
-  var a = 'details/' + activity_id;
-  location.href = a;
-}
-
-function messageURL(user_name) {
-    // var a ="a";
-    // console.log(a)
-    location.href = user_name;
-}

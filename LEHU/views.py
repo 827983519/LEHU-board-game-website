@@ -49,8 +49,8 @@ def auth(func):
 
         Select_message = Message.objects.filter(To=Session_logname).filter(Have_read=0)
         if len(Select_message) > 0:
-           return func(request,1)
-        return func(request,0)
+           return func(request,1,*args,**kwargs)
+        return func(request,0,*args,**kwargs)
     return inner
 
 
@@ -100,7 +100,8 @@ def modify_profile(request,have_message):
             request.session['profile'] = profile
             Session_profile = profile
 
-        return render(request,'profile_new.html',{'profile':Session_profile})
+        return render(request,'profile_new.html',{'profile':Session_profile,
+                                            'Have_message':have_message})
     #修改profile
     if request.method == 'POST':
         Session_logname = request.session.get('logname',None)
@@ -271,19 +272,23 @@ def history(request,have_message):
                                              'No_participant':No_participant})
 
 
-def view_other_profile(request):
-    Select_user = User.objects.filter(user_username=Session_username)
-    if len(Select_user) == 0:
-        return redirect('/login')
-    nickname = Select_user[0].user_nickname
-    bio = Select_user[0].user_bio
-    favourite = Select_user[0].user_favouritegame
-    email = Select_user[0].user_email
-    province = Select_user[0].user_province
-    cellphone = Select_user[0].user_cellphone
-    photo = Select_user[0].photo
+@auth
+def view_other_profile(request,have_message,pick_user):
 
-    return HttpResponse('ddd')
+    Select_user = User.objects.filter(user_username=pick_user)
+    if len(Select_user) == 0:
+        return HttpResponse('404')
+
+    # nickname = Select_user[0].user_nickname
+    # bio = Select_user[0].user_bio
+    # favourite = Select_user[0].user_favouritegame
+    # email = Select_user[0].user_email
+    # province = Select_user[0].user_province
+    # cellphone = Select_user[0].user_cellphone
+    # photo = Select_user[0].photo
+
+    return render(request,'show_profile.html',{'profile':Select_user[0],
+                                        'Have_message':have_message})
 
 
 @auth
@@ -295,12 +300,14 @@ def unread_message(request,have_message):
 
         if len(Select_message) == 0:
             No_unread_message = 1
-
-    #    print(Select_message[0])
+        else:
+            for single_message in Select_message:
+                single_message.Have_read = 1
+                single_message.save()
 
         return render(request,'Unread.html',{  'Unread_message_list':Select_message,
                                                  'No_unread_message':No_unread_message,
-                                                 'Have_message':have_message})
+                                                 'Have_message':0})
 
 
 @auth
@@ -322,7 +329,8 @@ def all_message(request,have_message):
 
 @auth
 def main(request,have_message):
-    return render(request,'index_new.html')
+    print(have_message)
+    return render(request,'index_new.html',{'Have_message':have_message})
 
 
 

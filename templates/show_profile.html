@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/public.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="/static/js/profile.js"></script>
+    <title>Profile</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="./"><img src="/static/assest/mainpage logo.svg"></a>
+        </div>
+        <div class="nav">
+          <a href="/logout"><img src="/static/assest/log out icon.svg" id="logout" /></a>
+          <a href="/profile"><img src="/static/assest/profile icon.svg" id="profile" /></a>
+          {%if Have_message == 0%}
+          <a href="/message"><img src="/static/assest/message+icon.svg" id="group" /></a>
+          {%else%}
+          <a href="/message"><img src="/static/assest/message+icon+new.svg" id="group" /></a>
+          {%endif%}
+          <a href="/activity"><img src="/static/assest/activity icon.svg" id="activities" /></a>
+          <img src="/static/assest/post icon.svg" id="post" />
+        </div>
+    </div>
+    <div class="content">
+        <div id="head">
+            <h1>PROFILE</h1>
+        </div>
+        <div id="body">
+            <div>
+                <img id="photo" alt="[photo]" src="/static/media/{{profile.user_image}}">
+            </div>
+            <div id="info">
+                <h1>Basic Infomation</h1>
+                <div class="field">
+                    <label for="nickname">Nickname</label>
+                    <div class="value" name="nickname">{{profile.user_nickname}}</div>
+                </div>
+                <div class="field">
+                    <label for="bio">Bio</label>
+                    <div class="value" name="bio">{{profile.user_bio}}</div>
+                </div>
+                <div class="field">
+                    <label for="favorite">Favourite Board Games</label>
+                    <div class="value" name="favorite" id="favorite"><b1 id="favourite123" value={{profile.user_favouritegame}}>{{profile.user_favouritegame}}</b1></div>
+                </div>
+                <h1>Contact Infomation</h1>
+                <div class="field">
+                    <label for="email">Email Address</label>
+                    <div class="value" name="email">{{profile.user_email}}</div>
+                </div>
+                <div class="field">
+                    <label for="phone">Cellphone Number</label>
+                    <div class="value" name="phone">{{profile.user_cellphone}}</div>
+
+                </div>
+                <div class="field">
+                    <label for="province">Province</label>
+                    <div class="value" name="province">{{profile.user_province}}</div>
+                </div>
+                <div class="field">
+                    <label for="city">City</label>
+                    <div class="value" name="city">{{profile.user_city}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

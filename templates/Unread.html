@@ -23,7 +23,11 @@
         <div class="nav">
           <a href="/logout"><img src="/static/assest/log out icon.svg" id="logout" /></a>
           <a href="/profile"><img src="/static/assest/profile icon.svg" id="profile" /></a>
+          {%if Have_message == 0%}
           <a href="/message"><img src="/static/assest/message+icon.svg" id="group" /></a>
+          {%else%}
+          <a href="/message"><img src="/static/assest/message+icon+new.svg" id="group" /></a>
+          {%endif%}
           <a href="/activity"><img src="/static/assest/activity icon.svg" id="activities" /></a>
           <img src="/static/assest/post icon.svg" id="post" />
         </div>
@@ -52,13 +56,13 @@
             {% if message.Category == 4%}
             [{{message.Activity_id.activity_title}}]
             {% else %}
-            <a href="javascript:changeURL({{message.Activity_id.activity_id}});" id="title">
+            <a href="/details/{{message.Activity_id.activity_id}}" id="title">
               [{{message.Activity_id.activity_title}}]
             </a>
             {% endif %}
           </label>
               <label class="activity_content">
-                <a href="{{message.From}}" id="content">
+                <a href="/pdetail/{{message.From}}" id="content">
                   {{ message.From }}</a> {{ message.Content }}
               </label>
 					<label class="activity_time">
@@ -70,7 +74,7 @@
 
 
 				<div class="field">
-                    <label for="locaton" id = "history">All message ></label>
+                    <label for="locaton" id = "allmessage">All message ></label>
                 </div>
             </form>
         </div>

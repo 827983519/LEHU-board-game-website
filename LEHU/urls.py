@@ -15,7 +15,7 @@ urlpatterns = [
     url('^history',views.history),
     url('^message',views.unread_message),
     url('^allmessage',views.all_message),
-
+    url('^pdetail/(\w+)',views.view_other_profile),
     #path()
 
 ]

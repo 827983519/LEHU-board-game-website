@@ -23,105 +23,53 @@
         <div class="nav">
           <a href="/logout"><img src="/static/assest/log out icon.svg" id="logout" /></a>
           <a href="/profile"><img src="/static/assest/profile icon.svg" id="profile" /></a>
+          {%if Have_message == 0%}
           <a href="/message"><img src="/static/assest/message+icon.svg" id="group" /></a>
+          {%else%}
+          <a href="/message"><img src="/static/assest/message+icon+new.svg" id="group" /></a>
+          {%endif%}
           <a href="/activity"><img src="/static/assest/activity icon.svg" id="activities" /></a>
           <img src="/static/assest/post icon.svg" id="post" />
         </div>
     </div>
     <div class="content">
         <div id="head">
-            <div>ACTIVITIES</div>
+            <div>All message</div>
         </div>
         <div id="body">
             <form>
 
-        <div class="field">
-            <label for="people">Host Events</label>
-        </div>
-
-      {% if No_host == 1 %}
-      <div class="single_activity">
-				<label class="activity_title">
-					[No host activity]
-				</label>
-
-        </div>
-        {% endif %}
-
-
-
-        {% for user in host_list %}
-			<a href="javascript:changeURL({{user.activity_id}});">
-        	<div class="single_activity">
-					<label class="activity_title">
-            [{{user.activity_title}}]
-					</label>
-					<label class="activity_status">
-						{{user.get_status_display}}
-					</label>
-					<label class="activity_time">
-						{{user.start_date}} {{user.start_time}}
-          </label>
-            {% if user.status == 1 %}
-    					<div id="circle2"></div>
-    					<div class="open"></div>
-            {% elif user.status == 2%}
-              <div id="circle2"></div>
-    					<div class="completed"></div>
-            {% elif user.status == 3%}
-              <div id="circle2"></div>
-    					<div class="full"></div>
-            {% elif user.status == 4%}
-              <div id="circle2"></div>
-    					<div class="cancelled"></div>
-            {% endif %}
-				</div> </a>
-        {% endfor %}
-
-
-
-        <div class="field">
-            <label>Registered Events</label>
-        </div>
-        {% if No_participant == 1 %}
-				<div class="single_activity">
-					<label class="activity_title">
-						[Activities not attended]
-					</label>
-				</div>
-        {% endif %}
-
-        {% for user in activity_list %}
-    	<a href="javascript:changeURL({{user.activity_id}});">
-				<div class="single_activity">
-					<label class="activity_title">
-						[{{user.activity_title}}]
-					</label>
-					<label class="activity_status">
-						{{user.get_status_display}}
-					</label>
-					<label class="activity_time">
-						{{user.start_date}} {{user.start_time}}
-					</label>
-          {% if user.status == 1 %}
-            <div id="circle3"></div>
-            <div class="open"></div>
-          {% elif user.status == 2%}
-            <div id="circle3"></div>
-            <div class="completed"></div>
-          {% elif user.status == 3%}
-            <div id="circle3"></div>
-            <div class="full"></div>
-          {% elif user.status == 4%}
-            <div id="circle3"></div>
-            <div class="cancelled"></div>
-          {% endif %}
-				</div> </a>
-        {% endfor %}
-
-				<div class="field">
-                    <label for="locaton" id = "history">History ></label>
+              {% if No_message == 1 %}
+              <div class="single_activity">
+                <label class="activity_title">
+                  [No message]
+                </label>
                 </div>
+                {% endif %}
+
+                {% for message in Message_list %}
+                  <div class="single_activity">
+                  <label class="activity_title">
+                    {% if message.Category == 4%}
+                    [{{message.Activity_id.activity_title}}]
+                    {% else %}
+                    <a href="/details/{{message.Activity_id.activity_id}}" id="title">
+                      [{{message.Activity_id.activity_title}}]
+                    </a>
+                    {% endif %}
+                  </label>
+                      <label class="activity_content">
+                        <a href="/pdetail/{{message.From}}" id="content">
+                          {{ message.From }}</a> {{ message.Content }}
+                      </label>
+                  <label class="activity_time">
+                     {{message.CreateTime}}
+                  </label>
+                </div>
+
+                {% endfor %}
+
+
             </form>
         </div>
     </div>
