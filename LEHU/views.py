@@ -239,7 +239,8 @@ def activity(request,have_message):
         return render(request,'activities.html',{'host_list':Select_host,
                                                  'activity_list':Participant_list,
                                                  'No_host':No_host,
-                                                 'No_participant':No_participant})
+                                                 'No_participant':No_participant,
+                                                 'Have_message':have_message})
 
 @auth
 def history(request,have_message):
@@ -269,7 +270,8 @@ def history(request,have_message):
     return render(request,'history.html',{'host_list':Select_host,
                                              'activity_list':Participant_list,
                                              'No_host':No_host,
-                                             'No_participant':No_participant})
+                                             'No_participant':No_participant,
+                                             'Have_message':have_message})
 
 
 @auth
