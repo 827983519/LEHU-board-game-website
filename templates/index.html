@@ -42,7 +42,7 @@
             <img src="./assest/search.svg" alt="search">
         </div>
         <h5>LOBBY</h5>
-        <div id="lobby">
+        <div id="lobby" background-color="white">
             <ul>
                 {% for activity in object_list %}
                 <li>{{ activity.pub_date|date }} - <a href="{% url 'detail' activity.activity_id %}">{{ activity.activity_title }}</a></li>

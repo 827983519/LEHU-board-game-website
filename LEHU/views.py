@@ -1,14 +1,14 @@
 from django.http import HttpResponse, HttpResponseRedirect
 #from django.template import loader
 from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
 from django.views import generic
 from django.utils import timezone
 from django.forms import Form,fields,widgets
 from django.contrib.auth.hashers import make_password, check_password
 import json
 
-from .models import Activity,User,Picture
+from .models import Activity,User,Picture,Participant
 
 
 # def index(request):
@@ -48,12 +48,80 @@ class PostDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
         return context
+    
+def join(request, activity_id):
+        activity = get_object_or_404(Activity, pk=activity_id)
+        status = activity.status
+        r_member = activity.numberofmem
+        if status != 1:
+            return redirect('/join_fail')
+            # messages.error(request, "Error")
+            # return render(request, 'LEHU/PostDetail.html', {
+            #     'error_message': "Selected activity is not available.",
+            # })
+        else:
+            try:
+                user_input = request.POST.get('mytextbox')
+                # user_id = request.session.get('logname',None)
+            except (KeyError, user_input.DoesNotExist):
+                # Redisplay the question voting form.
+                return render(request, 'LEHU/PostDetail.html', {
+                    'error_message': "You didn't enter input.",
+                })
+            else:
+                activity_instance = Participant.objects.create_activity(activity, user_input)
+                #participant_instance = Participant.objects.create_participant(user_input)
+                activity_instance.save()
+
+                c_member = Participant.objects.member_count(activity)
+                if c_member == r_member:
+                    activity.status = 3
+                    activity.save()
+
+                return HttpResponseRedirect('/index')
+                # return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+class JoinFailedView(generic.TemplateView):
+    # model = Activity
+    template_name = 'LEHU/Join_fail.html'
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['now'] = timezone.now()
+    #     return context
+
+# def modify(request, activity_id):
+#         activity = get_object_or_404(Activity, pk=activity_id)
+#         print(type(activity))
+#         try:
+#             user_input = request.POST.get('mytextbox')
+#         except (KeyError, user_input.DoesNotExist):
+#             # Redisplay the question voting form.
+#             return render(request, 'LEHU/PostDetail.html', {
+#                 'error_message': "You didn't enter input.",
+#             })
+#         else:
+#             activity_instance = Participant.objects.create_activity(activity, user_input)
+#             #participant_instance = Participant.objects.create_participant(user_input)
+#             activity_instance.save()
+
+#             return HttpResponseRedirect('/index')
+#             # return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+class ActivityUpdateView(generic.UpdateView):
+    model = Activity
+    fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
+    template_name_suffix = '_update_form'
+    success_url = reverse_lazy('postlist')
+
+class ActivityDeleteView(generic.DeleteView):
+    model = Activity
+    template_name_suffix = '_delete_confirm'
+    success_url = reverse_lazy('postlist')
 
 class loginForm(Form):
     username = fields.CharField(max_length=20,min_length=6,required=True)
     password = fields.CharField(max_length=20,min_length=6,required=True)
-
-
 
 class registerForm(Form):
     username = fields.CharField(max_length=20,min_length=6,required=True)

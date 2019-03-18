@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.forms import ModelForm
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.db.models import Count
 
 # Create your models here.
 
@@ -48,7 +49,7 @@ class Activity(models.Model):
         self.pub_date = timezone.now()
         self.save()
     def __str__(self):
-        return self.activity_title
+        return self.activity_id
     # def was_published_recently(self):
     #     now = timezone.now()
     #     return now - datetime.timedelta(days = 1) <= self.pub_date <= now
@@ -80,9 +81,28 @@ class ActivityForm(ModelForm):
 
         #start_time = forms.DateTimeField(initial=now, required=False)
 
+class ParticipantManager(models.Manager):
+    def create_activity(self, activity_id, participant):
+        Participant = self.create(activity_id=activity_id, participant=participant)
+        #Participant = self.create(participant=participant)
+        # do something with the book
+        return Participant
+    def member_count(self, activity_id):
+        count = self.filter(activity_id=activity_id).count()
+        return count
+
+    # def create_participant(self, participant):
+        
+    #     # do something with the book
+    #     return Participant
+
 class Participant(models.Model):
     activity_id = models.ForeignKey('Activity',on_delete=models.CASCADE)
     participant = models.CharField(max_length=20)
+
+    objects = ParticipantManager()
+
+ 
 
 # '''
 # null
