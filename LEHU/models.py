@@ -67,7 +67,8 @@ class ActivityForm(ModelForm):
     #     super(MyForm, self).__init__(*args, **kwargs)
     #     self.fields['Activity'].widget.attrs.update({'class' : 'fields'})
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        #super().__init__(*args, **kwargs)
+        super(ActivityForm, self).__init__(*args, **kwargs)
         self.fields['activity_title'].widget.attrs.update({'class': 'fields'})
         self.fields['activity_title'].widget.attrs.update(size='40')
     
@@ -90,6 +91,9 @@ class ParticipantManager(models.Manager):
     def member_count(self, activity_id):
         count = self.filter(activity_id=activity_id).count()
         return count
+    def find_activity(self, activity_id, participant):
+        Participant = self.filter(activity_id=activity_id, participant=participant)
+        return Participant
 
     # def create_participant(self, participant):
         
@@ -101,6 +105,9 @@ class Participant(models.Model):
     participant = models.CharField(max_length=20)
 
     objects = ParticipantManager()
+
+    def __str__(self):
+        return self.activity_id
 
  
 

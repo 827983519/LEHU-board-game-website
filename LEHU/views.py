@@ -10,10 +10,21 @@ import json
 
 from .models import Activity,User,Picture,Participant
 
+def auth(func):
+    def inner(request,*args,**kwargs):
+        Session_logname = request.session.get('logname',None)
+        if not Session_logname:
+            return redirect('/login')
+        # try:
+        #     v = request.get_signed_cookie('logname',salt='login')
+        # except:
+        #     return redirect('/login')
+        return func(request,*args,**kwargs)
+    return inner
 
 # def index(request):
 #     return HttpResponse('hello')
-
+# @auth
 class IndexView(generic.ListView):
     template_name = 'LEHU/index.html'
 
@@ -21,6 +32,11 @@ class ActivityPostView(generic.CreateView):
     model = Activity
     template_name = 'LEHU/post.html'
     fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['owner'] = self.request.session.get('logname',None)
+        return context
 
     def form_valid(self, form):
         self.object = form.save()
@@ -62,7 +78,7 @@ def join(request, activity_id):
         else:
             try:
                 user_input = request.POST.get('mytextbox')
-                # user_id = request.session.get('logname',None)
+                #user_id = request.session.get('logname',None)
             except (KeyError, user_input.DoesNotExist):
                 # Redisplay the question voting form.
                 return render(request, 'LEHU/PostDetail.html', {
@@ -110,7 +126,7 @@ class JoinFailedView(generic.TemplateView):
 
 class ActivityUpdateView(generic.UpdateView):
     model = Activity
-    fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
+    fields = ('activity_title','status','Category','activity_content','numberofmem','start_date','start_time','budget','location')
     template_name_suffix = '_update_form'
     success_url = reverse_lazy('postlist')
 
@@ -118,6 +134,19 @@ class ActivityDeleteView(generic.DeleteView):
     model = Activity
     template_name_suffix = '_delete_confirm'
     success_url = reverse_lazy('postlist')
+
+def quit(request, activity_id):
+        #activity = get_object_or_404(Activity, pk=activity_id)
+        user_input = request.POST.get('mytextbox')
+        # user_id = request.session.get('logname',None)
+        instance = Participant.objects.find_activity(activity_id=activity_id, participant = user_input)
+        #participant = get_object_or_404(Participant, activity_id=activity_id, participant = user_input)
+        instance.delete()
+        activity = get_object_or_404(Activity, pk=activity_id)
+        status = activity.status
+        if status == 3:
+            Activity.objects.filter(pk=activity_id).update(status=1)
+        return HttpResponseRedirect('/index')
 
 class loginForm(Form):
     username = fields.CharField(max_length=20,min_length=6,required=True)
@@ -326,6 +355,7 @@ def register(request):
             return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
 
         else:
+            print(input.cleaned_data['username'])
 
 
             user = User.objects.create(user_username = input.cleaned_data['username'],
@@ -340,7 +370,8 @@ def register(request):
 @auth
 def main(request):
     #print
-    return render(request,'index_new.html')
+    # return render(request,'index_new.html')
+    return redirect('/index')
 
 
 

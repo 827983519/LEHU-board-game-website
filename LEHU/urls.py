@@ -15,6 +15,7 @@ urlpatterns = [
     path('details/<int:activity_id>/join', views.join, name='join'),
     path('details/<int:pk>/update', views.ActivityUpdateView.as_view(), name = 'update'),
     path('details/<int:pk>/delete', views.ActivityDeleteView.as_view(), name = 'delete'),
+    path('details/<int:activity_id>/quit', views.quit, name='quit'),
     path('join_fail', views.JoinFailedView.as_view(), name='join_fail'),
 
     url('^$',views.main,name='main'),
