@@ -27,7 +27,13 @@ $(function () {
     });
 
 
-    $("#cancel").click(toggle);
+    //$("#cancel").click(toggle);
+
+    $("#cancel").click(function (){
+      window.location.href = "./profile";
+
+
+    });
 
     $("#save").click(function () {
 
@@ -42,6 +48,7 @@ $(function () {
             favourite3 = $.trim($("#favourite3").val());
 
             var photo = document.getElementById("upload_photo").files[0];
+
             var formData=new FormData();
             formData.append('photo',photo);
             formData.append('nickname',nickname);

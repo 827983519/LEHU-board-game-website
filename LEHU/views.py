@@ -20,24 +20,6 @@ class registerForm(Form):
     email = fields.EmailField(max_length=20,min_length=6,required=True)
     gender = fields.CharField(max_length = 7,required=True)
 
-#unsalted_md5
-def upload(request):
-    if request.method == 'GET':
-        #return render(request,'index_new.html')
-        return render(request,'upload.html')
-    if request.method == "POST":
-        imgs=request.FILES.get('img')
-        content = {
-        'imgs':imgs,
-    }
-    imgs.name='nsssss'
-    new = Picture()
-    new.Image = imgs
-    new.save()
-    print(new.Image)
-    #for i in imgs:
-    #    print(i.img.url)
-    return render(request,'showimg.html',{'imgs':str(new.Image)})
 
 
 
@@ -122,13 +104,16 @@ def modify_profile(request,have_message):
 
         favourite = get_favourite(favourite1,favourite2,favourite3)
 
+        if photo:
+            Select_user[0].user_image  = photo
+
         Select_user[0].user_nickname         = nickname
         Select_user[0].user_bio              = bio
         Select_user[0].user_favouritegame    = favourite
         Select_user[0].user_email            = email
         Select_user[0].user_province         = province
         Select_user[0].user_cellphone        = cellphone
-        Select_user[0].user_image            = photo
+
         Select_user[0].user_city             = city
         Select_user[0].save()
 

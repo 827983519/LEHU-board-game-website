@@ -14,7 +14,8 @@
 
 <body>
     <img src="/static/assest/LOGO.svg" class="logo" />
-    <form class="panel">
+    <form class="signuppanel">
+      <h1 id="message">{{msg}}</h1>
         <div class="field">
             <label for="username">User Name</label>
             <input type="text" name="username" value={{valid_data.username}}>
@@ -55,9 +56,10 @@
 
         <div class="field submit">
             <span>Already got an account?<a href="login.html">Log in</a></span>
+
         </div>
     </form>
-    <<h1>{{msg}}</h1>
+
 </body>
 
 

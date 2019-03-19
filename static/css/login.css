@@ -12,28 +12,34 @@ img.logo {
     margin: auto;
 }
 
-span.msg{
-  color: red;
-  width: 50%;
-  top: 18%;
-  position: fixed;
-  left: 70%;
-  bottom: 0;
-  margin: auto;
-}
 
-form.panel {
+form.loginpanel {
     height: fit-content;
     position: fixed;
     right: 5%;
     top: 0;
     bottom: 0;
-    margin: auto;
+    /* margin: 0 auto; */
+    /* display: inline */
+    margin-top: 250px ;
+    /* margin-bottom:  20px; */
+    width: 40%;
+}
+
+form.signuppanel {
+    height: fit-content;
+    position: fixed;
+    right: 5%;
+    top: 0;
+    bottom: 0;
+
+    margin-top: 180px ;
+    /* margin-bottom:  20px; */
     width: 40%;
 }
 
 .field {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .submit {
@@ -66,4 +72,9 @@ form.panel {
     height: 23.328px;
     background-image: url("../assest/signup\ icon.svg");
     background-color: transparent;
+}
+
+#message {
+
+color: red;
 }

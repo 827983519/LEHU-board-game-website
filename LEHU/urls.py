@@ -8,7 +8,6 @@ urlpatterns = [
     url('^$',views.main,name='main'),
     url('^login',views.login,name='login'),
     url('^register',views.register,name='register'),
-    url('^upload',views.upload),
     url('^profile',views.modify_profile),
     url('^logout',views.logout),
     url('^activity',views.activity),
