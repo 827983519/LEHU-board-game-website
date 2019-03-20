@@ -1,11 +1,28 @@
 $(function () {
-    $("#recommended>div").html([
-        "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3506901399,170737939&fm=26&gp=0.jpg",
-        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1484117707,233613571&fm=26&gp=0.jpg",
-        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2488425760,3791675756&fm=26&gp=0.jpg",
-        "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3005883822,2867182496&fm=26&gp=0.jpg",
-        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1379292423,1577183614&fm=26&gp=0.jpg"
-    ].map(v => `<div class="rec_img" style="background-image:url('${v}')"></div>`))
+  $("#refresh").click(function (){
 
-    $("#lobby").html(["asd", "asd", "asd"].map(v => `<div>${v}</div>`))
+     $.post('./refresh', {
+     }, function (msg) {
+       var pic1 = document.getElementById("pic1");
+       var pic2 = document.getElementById("pic2");
+       var pic3 = document.getElementById("pic3");
+       var pic4 = document.getElementById("pic4");
+
+      document.getElementById("intro1").innerText = msg[0].Store_name+'\n'+msg[0].Location
+      document.getElementById("intro2").innerText = msg[1].Store_name+'\n'+msg[1].Location
+      document.getElementById("intro3").innerText = msg[2].Store_name+'\n'+msg[2].Location
+      document.getElementById("intro4").innerText = msg[3].Store_name+'\n'+msg[3].Location
+
+       pic1.href="http://" +msg[0].Website;
+       pic2.href="http://" +msg[1].Website;
+       pic3.href="http://" +msg[2].Website;
+       pic4.href="http://" +msg[3].Website;
+
+       pic1.children[0].src = "/static/media/" + msg[0].Picture;
+       pic2.children[0].src = "/static/media/" + msg[1].Picture;
+       pic3.children[0].src = "/static/media/" + msg[2].Picture;
+       pic4.children[0].src = "/static/media/" + msg[3].Picture;
+
+     }, "json");
+    });
 })

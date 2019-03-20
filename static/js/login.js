@@ -1,7 +1,10 @@
-$("#signup").click(function (e) {
-    e.preventDefault();
-    window.location.href = "./register.html";
-});
+
+
+  $("#signup").click(function (e) {
+      e.preventDefault();
+      console.log("asdasd");
+      window.location.href = "./register.html";
+  });
 
 $("#login").click(function (e) {
     e.preventDefault();
@@ -22,8 +25,8 @@ $("#login").click(function (e) {
         if (msg.user === 'success') {
             window.location.href = "./";
         } else {
-            //alert("User name or password is wrong.");
-            $('#message').html(msg.msg);
+            alert("User name or password is wrong.");
+
         }
     }, "json");
 });

@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="/static/css/public.css">
     <link rel="stylesheet" href="/static/css/main.css">
     <link rel="stylesheet" href="/static/css/index.css">
-    <script src="/static/js/index.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="/static/js/index.js"></script>
 
 </head>
 
@@ -34,9 +34,26 @@
     <div class="content">
         <h5>TRENDING</h5>
         <div id="recommended">
-            <div>
+            <div style:"position:relative">
+              <a href="http://{{recommend.0.Website}}" id="pic1">
+                <img src="/static/media/{{recommend.0.Picture}}"/>
+                <span id="intro1">{{recommend.0.Store_name}}<br>{{recommend.0.Location}}</span>
+              </a>
+
+              <a href="http://{{recommend.1.Website}}" id="pic2" >
+                <img src="/static/media/{{recommend.1.Picture}}"/>
+                <span id="intro2">{{recommend.1.Store_name}}<br>{{recommend.1.Location}}</span>
+              </a>
+              <a href="http://{{recommend.2.Website}}" id="pic3" >
+                <img src="/static/media/{{recommend.2.Picture}}"/>
+                <span id="intro3">{{recommend.2.Store_name}}<br>{{recommend.2.Location}}</span>
+              </a>
+              <a href="http://{{recommend.3.Website}}" id="pic4" >
+                <img src="/static/media/{{recommend.3.Picture}}"/>
+                <span id="intro4">{{recommend.3.Store_name}}<br>{{recommend.3.Location}}</span>
+              </a>
             </div>
-            <img src="/static/assest/refresh.svg">
+            <img src="/static/assest/refresh.svg" id="refresh">
         </div>
         <div id="search">
             <h5>SEARCH</h5>

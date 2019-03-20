@@ -10,35 +10,39 @@
     <link rel="stylesheet" href="/static/css/public.css">
     <link rel="stylesheet" href="/static/css/login.css">
 
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="/static/js/register.js"></script>
+
+
 </head>
 
 <body>
     <img src="/static/assest/LOGO.svg" class="logo" />
     <form class="signuppanel">
-      <h1 id="message">{{msg}}</h1>
+      <!-- <h1 id="message">{{msg}}</h1> -->
         <div class="field">
             <label for="username">User Name</label>
-            <input type="text" name="username" value={{valid_data.username}}>
+            <input type="text" name="username" id="username" value={{valid_data.username}}>
         </div>
 
         <div class="field">
             <label for="password">Password</label>
-            <input type="password" name="password" value={{valid_data.password}}>
+            <input type="password" name="password" id="password" value={{valid_data.password}} >
         </div>
 
         <div class="field">
             <label for="confirmPassword">Confirm Password</label>
-            <input type="password" name="confirmPassword" value={{valid_data.confirmPassword}}>
+            <input type="password" id="confirmPassword" name="confirmPassword" value={{valid_data.confirmPassword}}>
         </div>
 
         <div class="field">
             <label for="email">Email Address</label>
-            <input type="email" name="email" value={{valid_data.email}}>
+            <input type="email" id="email" name="email" value={{valid_data.email}}>
         </div>
 
         <div class="field">
             <label for="gender">Gender</label>
-            <select name="gender" value="male">
+            <select name="gender" id="gender" value="male">
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
@@ -46,7 +50,7 @@
         </div>
 
         <div class="field submit">
-            <input type="checkbox" name="agree" />
+            <input type="checkbox" name="agree" id="agree"/>
             <span>I agree to the <a href="#">LEHU terms & conditions</a> and <a href="#">Private Policy</a></span>
         </div>
 

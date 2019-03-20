@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from .models import User,Picture,Activity,Participant,Message
+from .models import User,Activity,Participant,Message,Store
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.forms import Form,fields,widgets
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
+from .recommend import recommend_store
 import json
 
 class loginForm(Form):
@@ -152,46 +153,96 @@ def login(request):
 
 
 
+
+
+
 def register(request):
-    if not request.GET.get('username',None):
+    if request.method == "GET":
         logout(request)
         return render(request,'register_new.html')
 
-    if request.GET.get('username',None):
-        input = registerForm(request.GET)
+    if request.method == "POST":
+        input = registerForm(request.POST)
         if not input.is_valid():
-            a = {'register':'success','msg':'Wrong input format'}
+            a = {'register':'fail','msg':'Wrong input format'}
             valid_data = input.cleaned_data
-            return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+            try:
+                input.cleaned_data['username']
+                input.cleaned_data['password']
+                input.cleaned_data['confirmPassword']
+            except:
+                a['msg'] = 'Username and password length need to be between 6 to 20.'
+            a['valid_data'] = valid_data
+            return HttpResponse(json.dumps(a))
+
         Select_user = User.objects.filter(user_username= input.cleaned_data['username'])
 
         if len(Select_user)>0:
             a = {'register':'fail','msg':'Usename already exists'}
             valid_data = input.cleaned_data
             valid_data['username'] = ''
-            return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+            a['valid_data'] = valid_data
+            return HttpResponse(json.dumps(a))
+
 
         if input.cleaned_data['password'] != input.cleaned_data['confirmPassword']:
             a = {'register':'fail','msg':'Inconsistent password entered'}
             valid_data = input.cleaned_data
-            valid_data['password'] = ''
             valid_data['confirmPassword'] = ''
-            return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+            return HttpResponse(json.dumps(a))
 
         Select_user = User.objects.filter(user_email= input.cleaned_data['email'])
         if len(Select_user)>0:
             a = {'register':'fail','msg':'This Email has been used'}
             valid_data = input.cleaned_data
             valid_data['email'] = ''
-            return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+            a['valid_data'] = valid_data
+            return HttpResponse(json.dumps(a))
 
         else:
+            a = {'register':'success'}
             user = User.objects.create(user_username = input.cleaned_data['username'],
                                        user_password = make_password(input.cleaned_data['password']),
                                        user_email = input.cleaned_data['email'],
                                        user_gender = input.cleaned_data['gender']
                                        )
-            return redirect('/login')
+            return HttpResponse(json.dumps(a))
+
+    # if request.GET.pos('username',None):
+    #     input = registerForm(request.GET)
+    #     if not input.is_valid():
+    #         a = {'register':'success','msg':'Wrong input format'}
+    #         valid_data = input.cleaned_data
+    #         return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+    #     Select_user = User.objects.filter(user_username= input.cleaned_data['username'])
+    #
+    #     if len(Select_user)>0:
+    #         a = {'register':'fail','msg':'Usename already exists'}
+    #         valid_data = input.cleaned_data
+    #         valid_data['username'] = ''
+    #         return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+    #
+    #     if input.cleaned_data['password'] != input.cleaned_data['confirmPassword']:
+    #         a = {'register':'fail','msg':'Inconsistent password entered'}
+    #         valid_data = input.cleaned_data
+    #         valid_data['password'] = ''
+    #         valid_data['confirmPassword'] = ''
+    #         return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+    #
+    #     Select_user = User.objects.filter(user_email= input.cleaned_data['email'])
+    #     if len(Select_user)>0:
+    #         a = {'register':'fail','msg':'This Email has been used'}
+    #         valid_data = input.cleaned_data
+    #         valid_data['email'] = ''
+    #         return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
+    #
+    #     else:
+    #         user = User.objects.create(user_username = input.cleaned_data['username'],
+    #                                    user_password = make_password(input.cleaned_data['password']),
+    #                                    user_email = input.cleaned_data['email'],
+    #                                    user_gender = input.cleaned_data['gender']
+    #                                    )
+    #         return redirect('/login')
 
 
 
@@ -266,14 +317,6 @@ def view_other_profile(request,have_message,pick_user):
     if len(Select_user) == 0:
         return HttpResponse('404')
 
-    # nickname = Select_user[0].user_nickname
-    # bio = Select_user[0].user_bio
-    # favourite = Select_user[0].user_favouritegame
-    # email = Select_user[0].user_email
-    # province = Select_user[0].user_province
-    # cellphone = Select_user[0].user_cellphone
-    # photo = Select_user[0].photo
-
     return render(request,'show_profile.html',{'profile':Select_user[0],
                                         'Have_message':have_message})
 
@@ -308,16 +351,22 @@ def all_message(request,have_message):
         if len(Select_message) == 0:
             No_message = 1
 
-
         return render(request,'Read.html',{'Message_list':Select_message,
                                                  'No_message':No_message,
                                                   'Have_message':have_message})
 
 
 @auth
+def refresh_recommend(request,have_messgae):
+    if request.method == 'POST':
+        recommend_list = recommend_store(request)
+        return HttpResponse(json.dumps(recommend_list))
+
+
+@auth
 def main(request,have_message):
-    print(have_message)
-    return render(request,'index_new.html',{'Have_message':have_message})
+    recommend_list = recommend_store(request)
+    return render(request,'index_new.html',{'recommend':recommend_list,'Have_message':have_message})
 
 
 

@@ -5,10 +5,13 @@
 }
 
 #recommended>div {
+    margin-left: 7%;
     display: flex;
-    flex-grow: 1;
+    flex-grow: 0.5;
     justify-content: space-between;
 }
+
+
 
 #recommended>div>.rec_img {
     width: 19%;
@@ -18,6 +21,12 @@
 
 #recommended>img {
     height: 32px;
+    margin: 12px;
+}
+
+#recommended>div> a > img {
+    height: 250px;
+    width: 300px;
     margin: 12px;
 }
 
@@ -56,4 +65,53 @@ h5 {
 
 #search>img {
     height: 20px;
+}
+
+#intro1{
+  text-align: center;
+  font-weight: bold;
+  font-size: 125%;
+  position: absolute;
+  left: 255px;
+  top: 310px;
+  z-index:3;
+  /* top:50px; */
+  line-height:30px;
+  color: white;
+}
+
+#intro2{
+  font-size: 125%;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  left: 655px;
+  top: 310px;
+  z-index:3;
+  /* top:50px; */
+  line-height:30px;
+  color: white;
+}
+#intro3{
+  font-size: 125%;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  left: 1030px;
+  top: 310px;
+  z-index:3;
+  /* top:50px; */
+  line-height:30px;
+  color: white;
+}
+#intro4{
+  font-size: 125%;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  left: 1400px;
+  top: 310px;
+  z-index:3;
+  line-height:30px;
+  color: white;
 }

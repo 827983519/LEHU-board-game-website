@@ -9,16 +9,35 @@ blank
 注意，该项与null是不同的，null纯粹是与数据库相关的。而blank则与验证相关。如果一个字段设置为blank=True，表单验证时允许输入一个空值。而blank=False，则该项必需输入数据。
 '''
 
-def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user/{0}/{1}'.format(instance.username, filename)
+
+def store_picture_path(instance,filename):
+    return 'store/{0}'.format(filename)
 
 
-class Picture(models.Model):
-    Image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
-    username = models.CharField(verbose_name='Username',max_length = 20,null=True,blank=True)
+class Store(models.Model):
+    Store_name = models.CharField(max_length = 30,null=True,blank=True)
+    Location = models.CharField(max_length = 15,null=True,blank=True)
+    Picture = models.ImageField(upload_to = store_picture_path)
+    Website = models.CharField(max_length = 30)
+    Popular_board_game1 = models.CharField(max_length = 15,null=True,blank=True)
+    Popular_board_game2 = models.CharField(max_length = 15,null=True,blank=True)
+    Popular_board_game3 = models.CharField(max_length = 15,null=True,blank=True)
+    Rating =  models.DecimalField(max_digits=2,decimal_places=1,null=True,blank=True)
 
+    def __str__(self):
+        return str(self.Picture)
 
+    def to_dict(self):
+        dictionary = {}
+        dictionary['Store_name'] = self.Store_name
+        dictionary['Location'] = self.Location
+        dictionary['Rating'] = float(self.Rating)
+        dictionary['Picture'] = str(self.Picture)
+        dictionary['Website'] = self.Website
+        dictionary['Popular1'] = self.Popular_board_game1
+        dictionary['Popular2'] = self.Popular_board_game2
+        dictionary['Popular3'] = self.Popular_board_game3
+        return dictionary
 
 
 def profile_picture_path(instance, filename):
@@ -46,6 +65,7 @@ class User(models.Model):
 
     def __str__(self):
         return str(self.user_username)
+
 
 
 class Activity(models.Model):
@@ -82,7 +102,6 @@ class Activity(models.Model):
         self.save()
     def __str__(self):
         return self.activity_title
-
 
 
 class Participant(models.Model):

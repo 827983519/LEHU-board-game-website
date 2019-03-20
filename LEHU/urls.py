@@ -15,6 +15,7 @@ urlpatterns = [
     url('^message',views.unread_message),
     url('^allmessage',views.all_message),
     url('^pdetail/(\w+)',views.view_other_profile),
+    url('^refresh',views.refresh_recommend),
     #path()
 
 ]
