@@ -39,6 +39,8 @@ class ActivityPostView(generic.CreateView):
         return context
 
     def form_valid(self, form):
+        # form.instance.owner = self.request.user
+        form.instance.owner = self.request.session.get('logname',None)
         self.object = form.save()
     # do something with self.object
     # remember the import: from django.http import HttpResponseRedirect
@@ -59,6 +61,7 @@ class PostListView(generic.ListView):
 class PostDetailView(generic.DetailView):
     model = Activity
     template_name = 'LEHU/PostDetail.html'
+    template_name = 'LEHU/event.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -69,7 +72,8 @@ def join(request, activity_id):
         activity = get_object_or_404(Activity, pk=activity_id)
         status = activity.status
         r_member = activity.numberofmem
-        if status != 1:
+        owner = activity.owner
+        if status != 1 or owner == request.session.get('logname',None):
             return redirect('/join_fail')
             # messages.error(request, "Error")
             # return render(request, 'LEHU/PostDetail.html', {
@@ -77,15 +81,15 @@ def join(request, activity_id):
             # })
         else:
             try:
-                user_input = request.POST.get('mytextbox')
-                #user_id = request.session.get('logname',None)
-            except (KeyError, user_input.DoesNotExist):
+                #user_input = request.POST.get('mytextbox')
+                user_id = request.session.get('logname',None)
+            except (KeyError, user_id.DoesNotExist):
                 # Redisplay the question voting form.
                 return render(request, 'LEHU/PostDetail.html', {
                     'error_message': "You didn't enter input.",
                 })
             else:
-                activity_instance = Participant.objects.create_activity(activity, user_input)
+                activity_instance = Participant.objects.create_activity(activity, user_id)
                 #participant_instance = Participant.objects.create_participant(user_input)
                 activity_instance.save()
 
@@ -137,9 +141,9 @@ class ActivityDeleteView(generic.DeleteView):
 
 def quit(request, activity_id):
         #activity = get_object_or_404(Activity, pk=activity_id)
-        user_input = request.POST.get('mytextbox')
-        # user_id = request.session.get('logname',None)
-        instance = Participant.objects.find_activity(activity_id=activity_id, participant = user_input)
+        #user_input = request.POST.get('mytextbox')
+        user_id = request.session.get('logname',None)
+        instance = Participant.objects.find_activity(activity_id=activity_id, participant = user_id)
         #participant = get_object_or_404(Participant, activity_id=activity_id, participant = user_input)
         instance.delete()
         activity = get_object_or_404(Activity, pk=activity_id)
