@@ -102,6 +102,7 @@ class Activity(models.Model):
         self.save()
     def __str__(self):
         return self.activity_title
+    objects = models.Manager()
 
 
 class Participant(models.Model):

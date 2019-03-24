@@ -10,6 +10,7 @@ urlpatterns = [
     url('^register',views.register,name='register'),
     url('^profile',views.modify_profile),
     url('^logout',views.logout),
+    url('^search',views.search),
     url('^activity',views.activity),
     url('^history',views.history),
     url('^message',views.unread_message),
