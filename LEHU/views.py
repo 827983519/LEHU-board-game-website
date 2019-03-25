@@ -11,19 +11,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
 from .recommend import recommend_store
 import json
-from .models import Activity,User,Picture,Participant,Message,Store
-
-def auth(func):
-    def inner(request,*args,**kwargs):
-        Session_logname = request.session.get('logname',None)
-        if not Session_logname:
-            return redirect('/login')
-        # try:
-        #     v = request.get_signed_cookie('logname',salt='login')
-        # except:
-        #     return redirect('/login')
-        return func(request,*args,**kwargs)
-    return inner
+from .models import Activity,User,Participant,Message,Store
 
 # def index(request):
 #     return HttpResponse('hello')
@@ -31,14 +19,20 @@ def auth(func):
 class IndexView(generic.ListView):
     template_name = 'LEHU/index.html'
 
+
+
 class ActivityPostView(generic.CreateView):
     model = Activity
-    template_name = 'LEHU/post.html'
+    template_name = 'post.html'
     fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['owner'] = self.request.session.get('logname',None)
+        # if context['owner'] == None:
+        #     context['login'] = 0
+        # else:
+        #     context['login'] = 1
         return context
 
     def form_valid(self, form):
@@ -47,29 +41,27 @@ class ActivityPostView(generic.CreateView):
         self.object = form.save()
     # do something with self.object
     # remember the import: from django.http import HttpResponseRedirect
-        return HttpResponseRedirect('/index')
+        # return HttpResponseRedirect('/index')
 
-class PostListView(generic.ListView):
-    model = Activity
-    template_name = 'LEHU/index.html'
-    context_object_name = 'latest_activity'
+# class PostListView(generic.ListView):
+#     model = Activity
+#     template_name = 'LEHU/index.html'
+#     context_object_name = 'latest_activity'
+#
+#     def get_queryset(self):
+#         return Activity.objects.order_by('-pub_date')[:5]
 
-    def get_queryset(self):
-        return Activity.objects.order_by('-pub_date')[:5]
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['now'] = timezone.now()
-    #     return context
 
 class PostDetailView(generic.DetailView):
     model = Activity
     #template_name = 'LEHU/PostDetail.html'
-    template_name = 'LEHU/event.html'
+    template_name = 'event.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
         return context
+
 
 def join(request, activity_id):
         activity = get_object_or_404(Activity, pk=activity_id)
@@ -139,8 +131,11 @@ class JoinFailedView(generic.TemplateView):
 #             return HttpResponseRedirect('/index')
 #             # return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
+
+
 class ActivityUpdateView(generic.UpdateView, SuccessMessageMixin):
     model = Activity
+
     fields = ('activity_title','status','Category','activity_content','numberofmem','start_date','start_time','budget','location')
     template_name_suffix = '_update_form'
     success_message = 'List successfully saved!!!!'
@@ -169,56 +164,7 @@ class ActivityUpdateView(generic.UpdateView, SuccessMessageMixin):
 
         return super(ActivityUpdateView, self).form_valid(form)
 
-    # def post(self, request, *args, **kwargs):
-    # #def get_queryset(self):
-    #     user_id = self.request.session.get('logname',None)
-    #     print(user_id)
-    #     activity = self.get_object()
-    #     activity_id = activity.activity_id
-    #     #print(type(activity_id))
-    #     #activity = get_object_or_404(Activity, pk=activity_id)
-    #     owner = activity.owner
-    #     activity_title = activity.activity_title
-    #     participant = Participant.objects.get_all_participant(activity_id)
-    #     #print(participant)
-    #     for person in participant:
-    #         messagetext = owner + " has cancelled " + activity_title + "!"
-    #         person = str(person)
-    #         print(person)
-    #         message_instance = Message.objects.create_message(activity, owner, person, messagetext, 1)
-    #         message_instance.save()
-    #     #success_url = self.get_success_url()
-    #     #self.model.objects.filter(activity_id=activity_id).delete()
-    #     return HttpResponseRedirect(self.success_url)
 
-# class ActivityDeleteView(generic.DeleteView):
-#     model = Activity
-#     template_name_suffix = '_delete_confirm'
-#     success_message = "Activity was deleted successfully."
-#     success_url = reverse_lazy('postlist')
-
-#     def delete(self, request, *args, **kwargs):
-#     #def get_queryset(self):
-#         user_id = self.request.session.get('logname',None)
-#         print(user_id)
-#         activity = self.get_object()
-#         activity_id = activity.activity_id
-#         #print(type(activity_id))
-#         #activity = get_object_or_404(Activity, pk=activity_id)
-#         owner = activity.owner
-#         activity_title = activity.activity_title
-#         participant = Participant.objects.get_all_participant(activity_id)
-#         #print(participant)
-#         for person in participant:
-#             messagetext = owner + " has cancelled " + activity_title + "!"
-#             person = str(person)
-#             #print(person)
-#             message_instance = Message.objects.create_message(activity, owner, person, messagetext, 1)
-#             message_instance.save()
-#         #success_url = self.get_success_url()
-#         messages.success(self.request, self.success_message)
-#         return super(ActivityDeleteView, self).delete(request, *args, **kwargs)
-        #return self.request
 
 def cancel(request, activity_id):
         #activity = get_object_or_404(Activity, pk=activity_id)
@@ -588,6 +534,7 @@ def refresh_recommend(request,have_messgae):
 
 @auth
 def main(request,have_message):
+    Activity.objects.order_by('-pub_date')[:5]
     recommend_list = recommend_store(request)
     return render(request,'index_new.html',{'recommend':recommend_list,'Have_message':have_message})
 
@@ -604,15 +551,15 @@ def logout(request):
 # def search(request):
 #     if request.method == 'GET':
 #         return render(request,'search.html')
-
-def search(request):
+@auth
+def search(request,have_message):
     if 'q' in request.GET:
         q = request.GET['q']
         if q == "":
             titles = None
         else:
             titles = Activity.objects.filter(activity_title__icontains=q)
-        return render(request, './search.html', {'titles': titles, 'query': q})
+        return render(request, './search.html', {'titles': titles, 'query': q,'Have_message':have_message})
     else:
         return redirect('/')
 

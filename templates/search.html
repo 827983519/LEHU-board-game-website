@@ -31,16 +31,16 @@
             <a href="/activity"><img src="/static/assest/activity icon.svg" id="activities" /></a>
             <img src="/static/assest/post icon.svg" id="post" />
         </div>
-        
+
     </div>
     <div class="content">
         <div id="head">
             <div>SEARCH</div>
         </div>
         <div id="body">
-            {% if titles %}     
+            {% if titles %}
                     {% for Activity in titles %}
-                    <a href="/details/{{Activity.activity_id}})">
+                    <a href="/details/{{Activity.activity_id}}/register">
                     <div class="single_activity">
                     <label class="activity_title">
                         [{{Activity.activity_title}}]
@@ -64,12 +64,12 @@
                     <div id="circle3"></div>
                     <div class="cancelled"></div>
                     {% endif %}
-                    </div> </a>          
+                    </div> </a>
                     <!-- <li>{{ Activity.activity_title }}</li>               -->
-                    {% endfor %}                
-            {% else %}           
-                <p>No activities matched your search criteria.</p>       
-            {% endif %}     
+                    {% endfor %}
+            {% else %}
+                <p>No activities matched your search criteria.</p>
+            {% endif %}
         </div>
     </div>
 </body>

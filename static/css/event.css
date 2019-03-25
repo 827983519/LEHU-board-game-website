@@ -1,0 +1,150 @@
+#head {
+    border-bottom: solid #f2c44c 3px;
+    position: relative;
+}
+
+#head h1 {
+    margin: 4px 0;
+    display: inline-block;
+    color: #f2c44c;
+}
+
+#head .btn {
+    float: right;
+    height: 33px;
+    margin: 14px;
+    background-color: #f2c44c;
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 12px;
+    font-weight: 900;
+    display: none;
+}
+
+#head .btn.warning {
+    background-color: #aa003f;
+}
+
+#save {
+    position: absolute;
+    right: 160px;
+    bottom: 3px;
+    height: 33px;
+    display: none;
+}
+
+#cancel {
+    position: absolute;
+    right: 0;
+    bottom: 3px;
+    display: none;
+    height: 33px;
+}
+
+#body {
+    display: flex;
+	position: relative;
+}
+#people {
+	width: 300px;
+	text-align:center;
+}
+
+#HOST {
+	color: #f2c44c;
+	font-size: 30px;
+	line-height: 80px;
+}
+#big_circle {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	background-color: #00aa3f;
+	margin: 0 auto;
+}
+#host_name {
+	color: #f2c44c;
+	line-height: 40px;
+}
+#Registered {
+	color: #f2c44c;
+	font-size: 20px;
+	line-height: 60px;
+}
+#small_circle1 {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #aa003f;
+	position: absolute;
+	left: 55px;
+	top: 280px;
+}
+#small_circle2 {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #aaaa3f;
+	position: absolute;
+	left: 125px;
+	top: 280px;
+}
+#small_circle3 {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #3faaaa;
+	position: absolute;
+	left: 195px;
+	top: 280px;
+}
+
+#info {
+    padding: 0 16px;
+    flex-grow: 1;
+	text-align: center;
+}
+
+#info>h1 {
+    color: #f2c44c;
+}
+
+#add_game {
+    height: 18px;
+}
+
+.field {
+    display: flex;
+    margin-top: 16px;
+}
+
+.field>label {
+    color: #f2c44c;
+    display: inline-block;
+    text-align: right;
+    width: 240px;
+    margin-right: 15px;
+}
+
+.field>.value {
+    flex-grow: 1;
+    color: #f2c44c;
+    display: inline-block;
+}
+
+.field>.input {
+    display: none;
+    flex-grow: 1;
+}
+
+.input>textarea {
+    width: 100%;
+    border-radius: 18px;
+}
+
+.input>input {
+    height: 18px;
+    width: 100%;
+    border-radius: 18px;
+}

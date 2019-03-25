@@ -1,0 +1,124 @@
+button.custom {
+    background-color: #f2c44c;
+    border-radius: 12px;
+    border: 0px;
+    padding: 4px 16px;
+    font-size: 20px;
+    user-select: none;
+}
+
+button.custom.unselected {
+    background-color: #4d4d4d;
+}
+
+#head {
+    position: relative;
+    height: 52px;
+    width: 100%;
+}
+
+#head>div:first-child {
+    position: absolute;
+    font-size: 28px;
+    color: #f2c44c;
+    margin: 12px 0px;
+}
+
+#type {
+    left: 0;
+    right: 0;
+    top: 12px;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    font-size: 28px;
+    color: #f2c44c;
+    width: fit-content;
+}
+
+#type>* {
+    display: inline-block;
+    margin-right: 24px;
+}
+
+#type img {
+    height: 32px;
+}
+
+#body {
+    position: relative;
+    margin-left: 100px;
+}
+
+#body>form {
+    margin-right: 240px;
+}
+
+.field {
+    display: flex;
+    margin-top: 16px;
+}
+
+.field>label {
+    color: #f2c44c;
+    display: inline-block;
+    text-align: right;
+    width: 250px;
+    margin-right: 15px;
+}
+
+#box
+{
+  width: 250px;
+}
+
+.field>.input {
+    flex-grow: 1;
+}
+
+.field>.input.time {
+    flex-grow: 1;
+}
+
+.input>textarea {
+    width: 100%;
+    border-radius: 1px;
+}
+
+.input>input {
+    height: 18px;
+    width: 100%;
+    border-radius: 18px;
+}
+
+#add-another-game {
+    font-size: 10px;
+}
+
+#body>div {
+    position: absolute;
+    width: 180px;
+    right: 0;
+    top: -52px;
+}
+
+#body>div>img {
+    height: 35px;
+    margin-bottom: 12px;
+}
+
+#clear {
+    width: 100%;
+    display: none;
+    text-align: center;
+    padding-top: 160px;
+}
+
+#clear img {
+    height: 60px;
+    margin-bottom: 20px;
+}
+
+#clear>div>div {
+    color: #f2c44c;
+}

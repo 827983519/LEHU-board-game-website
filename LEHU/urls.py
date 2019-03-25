@@ -18,7 +18,7 @@ urlpatterns = [
     url('^pdetail/(\w+)',views.view_other_profile),
     url('^refresh',views.refresh_recommend),
     url('^post', views.ActivityPostView.as_view(), name='activitypost'),
-    url('^index', views.PostListView.as_view(), name = 'postlist'),
+    # url('^index', views.PostListView.as_view(), name = 'postlist'),
     path('details/<int:pk>/', views.PostDetailView.as_view(), name = 'detail'),
     path('details/<int:activity_id>/join', views.join, name='join'),
     path('details/<int:pk>/update', views.ActivityUpdateView.as_view(), name = 'update'),

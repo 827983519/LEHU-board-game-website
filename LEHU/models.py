@@ -102,12 +102,12 @@ class Activity(models.Model):
     budget = models.PositiveSmallIntegerField(null=True, blank =True)
     pub_date = models.DateTimeField(auto_now_add=True)
     now = timezone.now()
-    start_date = models.DateField('start date')
-    start_time = models.TimeField('start time', null = True,blank=True)
+    start_date = models.DateField('start date(YYYY-MM-DD)')
+    start_time = models.TimeField('start time(HH:MM:SS)', null = True,blank=True)
     location = models.TextField(null = True, blank = True)
-    
+
     objects = models.Manager()
-    
+
     def to_dict(self):
         information_dict = {}
         information_dict['activity_id'] = self.activity_id
@@ -119,7 +119,7 @@ class Activity(models.Model):
         self.pub_date = timezone.now()
         self.save()
     def __str__(self):
-        return self.activity_id
+        return str(self.activity_id)
 
 
 class TimeInput(forms.TimeInput):
@@ -160,7 +160,7 @@ class ParticipantManager(models.Manager):
 
     #     # do something with the book
     #     return Participant
->>>>>>> LEHU/models.py
+
 
 class Participant(models.Model):
     activity_id = models.ForeignKey('Activity',on_delete=models.CASCADE)
@@ -169,7 +169,7 @@ class Participant(models.Model):
     objects = ParticipantManager()
 
     def __str__(self):
-        return self.activity_id
+        return self.participant
 
 
 class MessageManager(models.Manager):

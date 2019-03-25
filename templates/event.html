@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static "css/public.css" %}">
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+    <link rel="stylesheet" href="{% static "css/event.css" %}">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="{% static "js/header.js" %}"></script>
+    <script src="{% static "js/event.js" %}"></script>
+    <title>Event</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="{% static "assest/mainpage_logo.svg" %}">
+        </div>
+        <div class="nav">
+            <img src="{% static "assest/log_out_icon.svg" %}" id="logout" />
+            <img src="{% static "assest/profile_icon.svg" %}" id="profile" />
+            <img src="{% static "assest/group_icon.svg" %}" id="group" />
+            <img src="{% static "assest/activity_icon.svg" %}" id="activities" />
+            <img src="{% static "assest/post_icon.svg" %}" id="post" />
+        </div>
+    </div>
+    <div class="content">
+        <div id="head">
+            <h1>EVENT DETAIL</h1>
+            <button class="btn" id="edit" href="{% url 'update' object.activity_id%}"> Update</button>
+            <!-- <button class="btn warning" id="cancel-event" href="{% url 'cancel' object.activity_id%}"> Cancel</button> -->
+            <form action="{% url 'cancel' object.activity_id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn warning"> Cancel </button>
+                    <!-- <input type="submit" class="btn" value="join" name="mybtn"> -->
+            </form>
+            <!-- <button class="btn" id="edit">Modify</button> -->
+            <!-- <button class="btn warning" id="cancel-event">Cancel Event</button> -->
+            <button class="btn" id="quit">Quit</button>
+            <!-- <button class="btn" id="join">Join Event</button> -->
+            <form action="{% url 'join' object.activity_id %}" method="post">{% csrf_token %}
+                <button class="btn" id="join" type="submit"> Join </button>
+                <!-- <input type="submit" class="btn" value="join" name="mybtn"> -->
+            </form>
+            <img id="save" src="{% static "assest/save_icon.svg" %}">
+            <img id="cancel" src="{% static "assest/cancel_icon.svg" %}">
+        </div>
+        <div id="body">
+            <div id="people">
+                <label id="HOST"><b>HOST</b></label>
+                <div id="big_circle"></div>
+                <label id="host_name">{{ object.owner }}</label>
+                <div></div>
+                <!-- <label id="Registered">Registered</label>
+                <div id="small_circle1"></div>
+                <div id="small_circle2"></div>
+                <div id="small_circle3"></div> -->
+            </div>
+            <div id="info">
+                <h1>{{ object.activity_title }}</h1>
+                <div class="field">
+                    <label for="username">Time :</label>
+                    <div class="value" name="username">{{ object.start_date }} {{ object.start_time }}</div>
+                    <!-- <div class="input">
+                        <div>{{ object.start_date }}</div>
+                        <p>{{ object.start_time }}</p>
+                    </div> -->
+                </div>
+                <div class="field">
+                    <label for="bio">Location :</label>
+                    <div class="value" name="bio"> {{ object.location }} </div>
+                    <div class="input"> 
+                        <!-- <input type="text"> -->
+                        <!-- <input type="text"> {{ object.location }} </input> -->
+                        <!-- <p>{{ object.location }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="bio">Budget :</label>
+                    <div class="value" name="bio"> {{ object.budget }} </div>
+                    <div class="input"> 
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="bio">Number of people :</label>
+                    <div class="value" name="bio"> {{ object.numberofmem }} </div>
+                    <div class="input"> 
+                            <!-- <input type="text"> -->
+                            <!-- <input type="text"> {{ object.location }} </input> -->
+                            <!-- <p>{{ object.location }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="favorite">Games to play :</label>
+                    <div class="value" name="favorite">{{ object.get_Category_display }}</div>
+                    <div class="input">
+                        <input type="text">
+                        <!-- <p>{{ object.get_Category_display }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="favorite">Description :</label>
+                    <div class="value" name="favorite">{{ object.activity_content }}</div>
+                    <div class="input">
+                        <input type="text">
+                        <!-- <p>{{ object.activity_content }}</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
