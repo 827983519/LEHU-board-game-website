@@ -105,7 +105,9 @@ class Activity(models.Model):
     start_date = models.DateField('start date')
     start_time = models.TimeField('start time', null = True,blank=True)
     location = models.TextField(null = True, blank = True)
-
+    
+    objects = models.Manager()
+    
     def to_dict(self):
         information_dict = {}
         information_dict['activity_id'] = self.activity_id
@@ -118,6 +120,7 @@ class Activity(models.Model):
         self.save()
     def __str__(self):
         return self.activity_id
+
 
 class TimeInput(forms.TimeInput):
     input_type = 'time'
@@ -157,6 +160,7 @@ class ParticipantManager(models.Manager):
 
     #     # do something with the book
     #     return Participant
+>>>>>>> LEHU/models.py
 
 class Participant(models.Model):
     activity_id = models.ForeignKey('Activity',on_delete=models.CASCADE)

@@ -268,6 +268,7 @@ def quit(request, activity_id):
 
 
 
+
 class loginForm(Form):
     username = fields.CharField(max_length=20,min_length=6,required=True)
     password = fields.CharField(max_length=20,min_length=6,required=True)
@@ -599,6 +600,21 @@ def logout(request):
     request.session.clear_expired()
     return redirect('/login')
 
+
+# def search(request):
+#     if request.method == 'GET':
+#         return render(request,'search.html')
+
+def search(request):
+    if 'q' in request.GET:
+        q = request.GET['q']
+        if q == "":
+            titles = None
+        else:
+            titles = Activity.objects.filter(activity_title__icontains=q)
+        return render(request, './search.html', {'titles': titles, 'query': q})
+    else:
+        return redirect('/')
 
 #request.session.clear_expired()
 #request.session.set_expiry()

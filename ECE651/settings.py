@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'ECE651.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'LEHU',
-        'USER':'wade',
-        'PASSWORD':'wadeliulu',
+        'NAME': 'ece651',
+        'USER':'zack',
+        'PASSWORD':'656820',
         'HOST':'localhost',
         'PORT':'3306',
     }

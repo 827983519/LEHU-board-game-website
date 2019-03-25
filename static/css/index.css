@@ -31,7 +31,7 @@
 }
 
 #lobby {
-    border: solid #f2c44c 4px;
+    border: solid #f2c44c 44px;
 }
 
 #lobby>div {
@@ -41,6 +41,7 @@
 
 h5 {
     color: #f2c44c;
+    font-size: 15px;
 }
 
 #search {
@@ -56,14 +57,14 @@ h5 {
     margin: 0;
 }
 
-#search>input {
+#search>form>input {
     width: 60%;
     border-radius: 8px;
     border: 0;
     height: 24px;
 }
 
-#search>img {
+#search>form>button>img {
     height: 20px;
 }
 
