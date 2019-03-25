@@ -1,6 +1,12 @@
+import datetime
 from django.db import models
 from django.utils import timezone
+from django.forms import ModelForm
+from django import forms
+from django.utils.translation import gettext_lazy as _
+from django.db.models import Count
 
+# Create your models here.
 '''
 null
 如果为True，Django将在数据库中存储一个空值NULL。默认为 False。
@@ -67,6 +73,8 @@ class User(models.Model):
         return str(self.user_username)
 
 
+# Create your models here.
+
 
 class Activity(models.Model):
     activity_id = models.AutoField(primary_key=True)
@@ -109,15 +117,62 @@ class Activity(models.Model):
         self.pub_date = timezone.now()
         self.save()
     def __str__(self):
-        return self.activity_title
+        return self.activity_id
 
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+class ActivityForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+
+        super(ActivityForm, self).__init__(*args, **kwargs)
+        self.fields['activity_title'].widget.attrs.update({'class': 'fields'})
+        self.fields['activity_title'].widget.attrs.update(size='40')
+
+    class Meta:
+        model = Activity
+        now = timezone.now()
+        fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
+
+
+class ParticipantManager(models.Manager):
+    def create_activity(self, activity_id, participant):
+        Participant = self.create(activity_id=activity_id, participant=participant)
+        #Participant = self.create(participant=participant)
+        # do something with the book
+        return Participant
+    def member_count(self, activity_id):
+        count = self.filter(activity_id=activity_id).count()
+        return count
+    def find_activity(self, activity_id, participant):
+        Participant = self.filter(activity_id=activity_id, participant=participant)
+        return Participant
+    def get_all_participant(self, activity_id):
+        Participant = self.values_list('participant', flat=True).filter(activity_id=activity_id)
+        return Participant
+
+    # def create_participant(self, participant):
+
+    #     # do something with the book
+    #     return Participant
 
 class Participant(models.Model):
     activity_id = models.ForeignKey('Activity',on_delete=models.CASCADE)
     participant = models.CharField(max_length=20)
 
+    objects = ParticipantManager()
+
     def __str__(self):
-        return self.participant
+        return self.activity_id
+
+
+class MessageManager(models.Manager):
+    def create_message(self, activity_id, From, To, Content, Title, Catagory):
+        #now = timezone.now()
+        Message = self.create(Activity_id=activity_id, From=From, To=To, Content=Content, Title=Title, Catagory=Catagory)
+        return Message
 
 
 class Message(models.Model):
@@ -155,3 +210,6 @@ class Message(models.Model):
         information_dict['CreateTime'] = self.CreateTime
 
         return information_dict
+
+
+    objects = MessageManager()
