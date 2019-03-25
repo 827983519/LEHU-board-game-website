@@ -20,12 +20,13 @@ def get_profile_info(profile,Select_user):
     profile['image']         = str(Select_user[0].user_image)
 
 
-def recommend_preference(request):
-    pass
+def recommend_preference(request,Session_profile):
+    favourite = Session_profile['favouritegame'].split(';')
+
+
 
 
 def recommend_popular(request):
-
     popular_list = Store.objects.filter(Rating__gte=3.6)
     pick = list(set([random.randint(0,len(popular_list)-1) for i in range(10)]))
     random.shuffle(pick)
@@ -47,14 +48,9 @@ def recommend_store(request):
         Session_profile = request.session.get('profile',None)
 
     favourite = Session_profile['favouritegame']
-    if favourite == "" or favourite == None:
-        recommend_list = recommend_popular(request)
+    # if favourite == "" or favourite == None:
+    recommend_list = recommend_popular(request)
 
-    else:
-         recommend_list = recommend_preference(request)
-    # recommend_list = {}
-    # recommend_list['pic1'] = ['/static/assest/store/pic5.jpeg','1']
-    # recommend_list['pic2'] = ['/static/assest/store/pic6.jpeg','2']
-    # recommend_list['pic3'] = ['/static/assest/store/pic7.jpeg','3']
-    # recommend_list['pic4'] = ['/static/assest/store/pic8.jpeg','4']
+    # else:
+         # recommend_list = recommend_preference(request,Session_profile)
     return recommend_list

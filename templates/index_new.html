@@ -68,8 +68,15 @@
             <a href="./search.html"><img src="/static/assest/search.svg" alt="search" height ="25px" width="25px"></a> -->
         </div>
         <h5>LOBBY</h5>
-        <div id="lobby">
-
+        <div id="lobby" background-color="white">
+            <ul>
+                {% for activity in object_list %}
+                <li>{{ activity.pub_date|date }} - <a href="{% url 'detail' activity.activity_id %}">{{ activity.activity_title }}</a></li>
+                    {% empty %}
+                    <li>No activity yet.</li>
+                {% endfor %}
+                 <!-- <a class="btn btn-primary" href="{% url 'activitypost' %}"> Create New</a> -->
+            </ul>
         </div>
     </div>
 </body>
