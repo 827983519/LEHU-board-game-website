@@ -104,7 +104,7 @@ def join(request, activity_id):
                     activity.save()
 
                 # generate join message
-                messagetext = user_id + " has joined " + activity_title + "!"
+                messagetext = "has joint"
                 message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext,2)
                 message_instance.save()
 
@@ -159,10 +159,10 @@ class ActivityUpdateView(generic.UpdateView, SuccessMessageMixin):
         participant = Participant.objects.get_all_participant(activity_id)
         #print(participant)
         for person in participant:
-            messagetext = owner + " has updated " + activity_title + "!"
+            messagetext = "has updated"
             person = str(person)
             print(person)
-            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, 1)
+            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, 3)
             message_instance.save()
         #success_url = self.get_success_url()
     
@@ -233,10 +233,10 @@ def cancel(request, activity_id):
         #Activity.objects.filter(activity_id=activity_id).delete()
         #print(participant)
         for person in participant:
-            messagetext = owner + " has cancelled " + activity_title + "!"
+            messagetext = "has cancelled"
             person = str(person)
             print(person)
-            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, 1)
+            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, 4)
             message_instance.save()
         #success_url = self.get_success_url()
         Activity.objects.filter(activity_id=activity_id).delete()
@@ -257,7 +257,7 @@ def quit(request, activity_id):
         activity_id = activity.activity_id
         activity_title = activity.activity_title
 
-        messagetext = user_id + " has quitted " + activity_title + "!"
+        messagetext = "has quitted"
         message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext, 1)
         message_instance.save()
 
