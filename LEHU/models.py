@@ -97,6 +97,14 @@ class Activity(models.Model):
     start_date = models.DateField('start date')
     start_time = models.TimeField('start time', null = True,blank=True)
     location = models.TextField(null = True, blank = True)
+
+    def to_dict(self):
+        information_dict = {}
+        information_dict['activity_id'] = self.activity_id
+        information_dict['activity_title'] = self.activity_title
+
+        return information_dict
+
     def publish(self):
         self.pub_date = timezone.now()
         self.save()
@@ -116,7 +124,7 @@ class Message(models.Model):
     From = models.CharField(max_length = 20)
     To = models.CharField(max_length = 20)
     Content = models.CharField(max_length=50)
-
+    Title = models.CharField(max_length = 50,blank=True)
     CATEGORY_CHOICES = (
         (1, 'Quit'),
         (2, 'Join'),
@@ -130,8 +138,20 @@ class Message(models.Model):
         (0, 'Unread'),
     )
 
-    Activity_id = models.ForeignKey('Activity',on_delete=models.CASCADE)
+    Activity_id = models.IntegerField(blank=True)
     Have_read =  models.IntegerField(choices=READ_CHOICES, default=0)
     CreateTime = models.DateTimeField(verbose_name='CreatTime',auto_now_add=True)
     def __str__(self):
         return str(self.From)
+
+    def to_dict(self):
+        information_dict = {}
+        information_dict['From'] = self.From
+        information_dict['To'] = self.To
+        information_dict['Content'] = self.Content
+        information_dict['Catagory'] = self.Catagory
+        information_dict['Activity_id'] = self.Activity_id
+        information_dict['Have_read'] = self.Have_read
+        information_dict['CreateTime'] = self.CreateTime
+
+        return information_dict

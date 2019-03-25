@@ -55,7 +55,7 @@
 
 
         {% for user in host_list %}
-			<a href="/details/{{user.activity_id}}">
+			<a href="/details/{{user.activity_id}}/host">
         	<div class="single_activity">
 					<label class="activity_title">
             [{{user.activity_title}}]
@@ -96,7 +96,7 @@
         {% endif %}
 
         {% for user in activity_list %}
-    	<a href="/details/{{user.activity_id}}">
+    	<a href="/details/{{user.activity_id}}/register">
 				<div class="single_activity">
 					<label class="activity_title">
 						[{{user.activity_title}}]

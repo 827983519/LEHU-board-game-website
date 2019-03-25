@@ -54,10 +54,14 @@
         	<div class="single_activity">
 					<label class="activity_title">
             {% if message.Category == 4%}
-            [{{message.Activity_id.activity_title}}]
+            [{{message.Activity_title}}]
+            {% elif message.Category == 3%}
+            <a href="/details/{{message.Activity_id}}/register" id="title">
+              [{{message.Title}}]
+            </a>
             {% else %}
-            <a href="/details/{{message.Activity_id.activity_id}}" id="title">
-              [{{message.Activity_id.activity_title}}]
+            <a href="/details/{{message.Activity_id}}/host" id="title">
+              [{{message.Title}}]
             </a>
             {% endif %}
           </label>

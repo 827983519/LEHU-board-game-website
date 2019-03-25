@@ -153,9 +153,6 @@ def login(request):
 
 
 
-
-
-
 def register(request):
     if request.method == "GET":
         logout(request)
@@ -207,42 +204,6 @@ def register(request):
                                        user_gender = input.cleaned_data['gender']
                                        )
             return HttpResponse(json.dumps(a))
-
-    # if request.GET.pos('username',None):
-    #     input = registerForm(request.GET)
-    #     if not input.is_valid():
-    #         a = {'register':'success','msg':'Wrong input format'}
-    #         valid_data = input.cleaned_data
-    #         return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
-    #     Select_user = User.objects.filter(user_username= input.cleaned_data['username'])
-    #
-    #     if len(Select_user)>0:
-    #         a = {'register':'fail','msg':'Usename already exists'}
-    #         valid_data = input.cleaned_data
-    #         valid_data['username'] = ''
-    #         return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
-    #
-    #     if input.cleaned_data['password'] != input.cleaned_data['confirmPassword']:
-    #         a = {'register':'fail','msg':'Inconsistent password entered'}
-    #         valid_data = input.cleaned_data
-    #         valid_data['password'] = ''
-    #         valid_data['confirmPassword'] = ''
-    #         return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
-    #
-    #     Select_user = User.objects.filter(user_email= input.cleaned_data['email'])
-    #     if len(Select_user)>0:
-    #         a = {'register':'fail','msg':'This Email has been used'}
-    #         valid_data = input.cleaned_data
-    #         valid_data['email'] = ''
-    #         return render(request,'register_new.html',{'valid_data':valid_data,'msg':a['msg']})
-    #
-    #     else:
-    #         user = User.objects.create(user_username = input.cleaned_data['username'],
-    #                                    user_password = make_password(input.cleaned_data['password']),
-    #                                    user_email = input.cleaned_data['email'],
-    #                                    user_gender = input.cleaned_data['gender']
-    #                                    )
-    #         return redirect('/login')
 
 
 
@@ -328,6 +289,8 @@ def unread_message(request,have_message):
         Select_message = Message.objects.filter(To=Session_logname).filter(Have_read=0)
         No_unread_message = 0
 
+        select_message = []
+
         if len(Select_message) == 0:
             No_unread_message = 1
         else:
@@ -347,12 +310,11 @@ def all_message(request,have_message):
         Select_message = Message.objects.filter(To=Session_logname)
 
         No_message = 0
-
         if len(Select_message) == 0:
             No_message = 1
-
         return render(request,'Read.html',{'Message_list':Select_message,
                                                  'No_message':No_message,
+                                                 # '':activity_list
                                                   'Have_message':have_message})
 
 
