@@ -1,0 +1,163 @@
+#recommended {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#recommended>div {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+#recommended>div>.rec_img {
+    width: 19%;
+    padding: 9.5% 0;
+    background-position: center center;
+}
+
+#recommended>img {
+    height: 32px;
+    margin: 12px;
+}
+
+#lobby {
+    background-color: #f2c44c;
+    padding: 8px;
+}
+
+#lobby>div {
+    background-color: white;
+    margin: 6px 8px;
+    padding: 12px;
+}
+
+#lobby span {
+    display: inline-block;
+}
+
+#lobby .host {
+    width: 30%
+}
+
+#lobby .activity_title {
+    width: 50%
+}
+
+#lobby .host::before {
+    content: "";
+    float: left;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    margin-right: 8px
+}
+
+#lobby .open .host::before,
+#lobby .open .status::before {
+    background-color: #00aa3f;
+}
+
+#lobby .completed .host::before,
+#lobby .completed .status::before {
+    background-color: #aa003f;
+}
+
+#lobby .full .host::before,
+#lobby .full .status::before {
+    background-color: #3f00aa;
+}
+
+#lobby .cancelled .host::before,
+#lobby .cancelled .status::before {
+    background-color: #aaaa3f;
+}
+
+#lobby .status::before {
+    content: "";
+    float: left;
+    margin-top: 7px;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    margin-right: 8px
+}
+
+#lobby .open .status::after {
+    content: "open"
+}
+
+#lobby .completed .status::after {
+    content: "completed"
+}
+#lobby .full .status::after {
+    content: "full"
+}
+
+
+#lobby .cancelled .status::after {
+    content: "cancelled"
+}
+
+h5 {
+    color: #f2c44c;
+    display: inline-block;
+}
+
+#search {
+    width: 100%;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 32px;
+}
+
+#search>h5 {
+    float: left;
+    margin: 0;
+}
+
+#search>input {
+    width: 60%;
+    border-radius: 8px;
+    border: 0;
+    height: 24px;
+}
+
+#search>img {
+    height: 20px;
+}
+
+.field {
+    padding-left: 20%;
+    display: flex;
+    margin-top: 16px;
+}
+
+.field label {
+    color: #f2c44c;
+    display: inline-block;
+    text-align: right;
+    width: 30px;
+    margin-right: 15px;
+}
+
+.field>.input {
+    flex-grow: 1;
+}
+
+.field>.input.time {
+    flex-grow: 0;
+}
+
+.field>.input.time select {
+    height: 24px;
+    border-radius: 8px;
+}
+
+#location {
+    border-radius: 8px;
+    border: 0;
+    height: 24px;
+    width: 400px;
+}
