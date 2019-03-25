@@ -94,6 +94,9 @@ class ParticipantManager(models.Manager):
     def find_activity(self, activity_id, participant):
         Participant = self.filter(activity_id=activity_id, participant=participant)
         return Participant
+    def get_all_participant(self, activity_id):
+        Participant = self.values_list('participant', flat=True).filter(activity_id=activity_id)
+        return Participant
 
     # def create_participant(self, participant):
         
@@ -158,3 +161,37 @@ class User(models.Model):
 
     def __str__(self):
         return str(self.user_username)
+
+class MessageManager(models.Manager):
+    def create_message(self, activity_id, From, To, Content, Catagory):
+        #now = timezone.now()
+        Message = self.create(Activity_id=activity_id, From=From, To=To, Content=Content, Catagory=Catagory)
+        return Message
+
+
+class Message(models.Model):
+    From = models.CharField(max_length = 20)
+    To = models.CharField(max_length = 20)
+    Content = models.CharField(max_length=50)
+
+    CATEGORY_CHOICES = (
+        (1, 'Quit'),
+        (2, 'Join'),
+        (3, 'Modify'),
+        (4, 'Close'),
+    )
+
+    Catagory = models.IntegerField(choices=CATEGORY_CHOICES, default=0)
+    READ_CHOICES = (
+        (1, 'Read'),
+        (0, 'Unread'),
+    )
+
+    Activity_id = models.IntegerField(null=True, blank =True)
+    Have_read =  models.IntegerField(choices=READ_CHOICES, default=0)
+    CreateTime = models.DateTimeField(verbose_name='CreatTime',auto_now_add=True)
+
+    objects = MessageManager()
+
+    def __str__(self):
+        return str(self.From)

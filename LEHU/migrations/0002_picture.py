@@ -10,11 +10,11 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Picture',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('Image', models.ImageField(blank=True, null=True, upload_to='user/')),
-            ],
-        ),
+#        migrations.CreateModel(
+#            name='Picture',
+#            fields=[
+#                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+#                ('Image', models.ImageField(blank=True, null=True, upload_to='user/')),
+#            ],
+#        ),
     ]

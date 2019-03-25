@@ -4,11 +4,13 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse,reverse_lazy
 from django.views import generic
 from django.utils import timezone
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.forms import Form,fields,widgets
 from django.contrib.auth.hashers import make_password, check_password
 import json
 
-from .models import Activity,User,Picture,Participant
+from .models import Activity,User,Picture,Participant,Message
 
 def auth(func):
     def inner(request,*args,**kwargs):
@@ -61,7 +63,7 @@ class PostListView(generic.ListView):
 class PostDetailView(generic.DetailView):
     model = Activity
     template_name = 'LEHU/PostDetail.html'
-    template_name = 'LEHU/event.html'
+    #template_name = 'LEHU/event.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -73,7 +75,10 @@ def join(request, activity_id):
         status = activity.status
         r_member = activity.numberofmem
         owner = activity.owner
-        if status != 1 or owner == request.session.get('logname',None):
+        activity_id = activity.activity_id
+        activity_title = activity.activity_title
+        #if status != 1 or owner == request.session.get('logname',None):
+        if status != 1:
             return redirect('/join_fail')
             # messages.error(request, "Error")
             # return render(request, 'LEHU/PostDetail.html', {
@@ -97,6 +102,11 @@ def join(request, activity_id):
                 if c_member == r_member:
                     activity.status = 3
                     activity.save()
+
+                # generate join message
+                messagetext = user_id + " has joined " + activity_title + "!"
+                message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext,2)
+                message_instance.save()
 
                 return HttpResponseRedirect('/index')
                 # return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
@@ -128,26 +138,129 @@ class JoinFailedView(generic.TemplateView):
 #             return HttpResponseRedirect('/index')
 #             # return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
-class ActivityUpdateView(generic.UpdateView):
+class ActivityUpdateView(generic.UpdateView, SuccessMessageMixin):
     model = Activity
     fields = ('activity_title','status','Category','activity_content','numberofmem','start_date','start_time','budget','location')
     template_name_suffix = '_update_form'
+    success_message = 'List successfully saved!!!!'
     success_url = reverse_lazy('postlist')
 
-class ActivityDeleteView(generic.DeleteView):
-    model = Activity
-    template_name_suffix = '_delete_confirm'
-    success_url = reverse_lazy('postlist')
+    def form_valid(self, form):
+        #form.instance.owner_user = self.request.user
+
+        user_id = self.request.session.get('logname',None)
+        print(user_id)
+        activity = self.get_object()
+        activity_id = activity.activity_id
+        #print(type(activity_id))
+        #activity = get_object_or_404(Activity, pk=activity_id)
+        owner = activity.owner
+        activity_title = activity.activity_title
+        participant = Participant.objects.get_all_participant(activity_id)
+        #print(participant)
+        for person in participant:
+            messagetext = owner + " has updated " + activity_title + "!"
+            person = str(person)
+            print(person)
+            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, 1)
+            message_instance.save()
+        #success_url = self.get_success_url()
+    
+        return super(ActivityUpdateView, self).form_valid(form)
+
+    # def post(self, request, *args, **kwargs):
+    # #def get_queryset(self):
+    #     user_id = self.request.session.get('logname',None)
+    #     print(user_id)
+    #     activity = self.get_object()
+    #     activity_id = activity.activity_id
+    #     #print(type(activity_id))
+    #     #activity = get_object_or_404(Activity, pk=activity_id)
+    #     owner = activity.owner
+    #     activity_title = activity.activity_title
+    #     participant = Participant.objects.get_all_participant(activity_id)
+    #     #print(participant)
+    #     for person in participant:
+    #         messagetext = owner + " has cancelled " + activity_title + "!"
+    #         person = str(person)
+    #         print(person)
+    #         message_instance = Message.objects.create_message(activity, owner, person, messagetext, 1)
+    #         message_instance.save()
+    #     #success_url = self.get_success_url()
+    #     #self.model.objects.filter(activity_id=activity_id).delete()
+    #     return HttpResponseRedirect(self.success_url)
+
+# class ActivityDeleteView(generic.DeleteView):
+#     model = Activity
+#     template_name_suffix = '_delete_confirm'
+#     success_message = "Activity was deleted successfully."
+#     success_url = reverse_lazy('postlist')
+
+#     def delete(self, request, *args, **kwargs):
+#     #def get_queryset(self):
+#         user_id = self.request.session.get('logname',None)
+#         print(user_id)
+#         activity = self.get_object()
+#         activity_id = activity.activity_id
+#         #print(type(activity_id))
+#         #activity = get_object_or_404(Activity, pk=activity_id)
+#         owner = activity.owner
+#         activity_title = activity.activity_title
+#         participant = Participant.objects.get_all_participant(activity_id)
+#         #print(participant)
+#         for person in participant:
+#             messagetext = owner + " has cancelled " + activity_title + "!"
+#             person = str(person)
+#             #print(person)
+#             message_instance = Message.objects.create_message(activity, owner, person, messagetext, 1)
+#             message_instance.save()
+#         #success_url = self.get_success_url()
+#         messages.success(self.request, self.success_message)
+#         return super(ActivityDeleteView, self).delete(request, *args, **kwargs)
+        #return self.request
+
+def cancel(request, activity_id):
+        #activity = get_object_or_404(Activity, pk=activity_id)
+        #user_input = request.POST.get('mytextbox')
+        user_id = request.session.get('logname',None)
+        activity = get_object_or_404(Activity, pk=activity_id)
+        activity_id = activity.activity_id
+        #print(type(activity_id))
+        #activity = get_object_or_404(Activity, pk=activity_id)
+        owner = activity.owner
+        activity_title = activity.activity_title
+        participant = Participant.objects.get_all_participant(activity_id)
+        #Activity.objects.filter(activity_id=activity_id).delete()
+        #print(participant)
+        for person in participant:
+            messagetext = owner + " has cancelled " + activity_title + "!"
+            person = str(person)
+            print(person)
+            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, 1)
+            message_instance.save()
+        #success_url = self.get_success_url()
+        Activity.objects.filter(activity_id=activity_id).delete()
+        return HttpResponseRedirect('/index')
+
 
 def quit(request, activity_id):
         #activity = get_object_or_404(Activity, pk=activity_id)
         #user_input = request.POST.get('mytextbox')
+
         user_id = request.session.get('logname',None)
         instance = Participant.objects.find_activity(activity_id=activity_id, participant = user_id)
         #participant = get_object_or_404(Participant, activity_id=activity_id, participant = user_input)
         instance.delete()
         activity = get_object_or_404(Activity, pk=activity_id)
         status = activity.status
+        owner = activity.owner
+        activity_id = activity.activity_id
+        activity_title = activity.activity_title
+
+        messagetext = user_id + " has quitted " + activity_title + "!"
+        message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext, 1)
+        message_instance.save()
+
         if status == 3:
             Activity.objects.filter(pk=activity_id).update(status=1)
         return HttpResponseRedirect('/index')
