@@ -62,8 +62,8 @@ class PostListView(generic.ListView):
 
 class PostDetailView(generic.DetailView):
     model = Activity
-    template_name = 'LEHU/PostDetail.html'
-    #template_name = 'LEHU/event.html'
+    #template_name = 'LEHU/PostDetail.html'
+    template_name = 'LEHU/event.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -105,7 +105,7 @@ def join(request, activity_id):
 
                 # generate join message
                 messagetext = "has joint"
-                message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext,2)
+                message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext, activity_title,2)
                 message_instance.save()
 
                 return HttpResponseRedirect('/index')
@@ -162,7 +162,7 @@ class ActivityUpdateView(generic.UpdateView, SuccessMessageMixin):
             messagetext = "has updated"
             person = str(person)
             print(person)
-            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, 3)
+            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, activity_title, 3)
             message_instance.save()
         #success_url = self.get_success_url()
     
@@ -236,7 +236,7 @@ def cancel(request, activity_id):
             messagetext = "has cancelled"
             person = str(person)
             print(person)
-            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, 4)
+            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, activity_title, 4)
             message_instance.save()
         #success_url = self.get_success_url()
         Activity.objects.filter(activity_id=activity_id).delete()
@@ -258,7 +258,7 @@ def quit(request, activity_id):
         activity_title = activity.activity_title
 
         messagetext = "has quitted"
-        message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext, 1)
+        message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext, activity_title, 1)
         message_instance.save()
 
         if status == 3:

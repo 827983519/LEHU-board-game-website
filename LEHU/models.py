@@ -163,9 +163,9 @@ class User(models.Model):
         return str(self.user_username)
 
 class MessageManager(models.Manager):
-    def create_message(self, activity_id, From, To, Content, Catagory):
+    def create_message(self, activity_id, From, To, Content, Title, Catagory):
         #now = timezone.now()
-        Message = self.create(Activity_id=activity_id, From=From, To=To, Content=Content, Catagory=Catagory)
+        Message = self.create(Activity_id=activity_id, From=From, To=To, Content=Content, Title=Title, Catagory=Catagory)
         return Message
 
 
@@ -173,6 +173,7 @@ class Message(models.Model):
     From = models.CharField(max_length = 20)
     To = models.CharField(max_length = 20)
     Content = models.CharField(max_length=50)
+    Title = models.CharField(max_length=50, null=True, blank =True)
 
     CATEGORY_CHOICES = (
         (1, 'Quit'),

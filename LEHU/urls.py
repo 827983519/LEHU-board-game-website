@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('^index',views.IndexView.as_view, name = 'index'),
+    #path('^index',views.IndexView.as_view, name = 'index'),
     url('^post', views.ActivityPostView.as_view(), name='activitypost'),
     #url('^post/new/', views.ActivityPostView.as_view(), name='activitypost'),
     url('^index', views.PostListView.as_view(), name = 'postlist'),

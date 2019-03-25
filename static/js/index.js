@@ -37,15 +37,15 @@ $(function () {
         "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1379292423,1577183614&fm=26&gp=0.jpg"
     ].map(v => `<div class="rec_img" style="background-image:url('${v}')"></div>`))
 
-    $("#lobby").html([{
-        host: "host name",
-        title: "Title",
-        time: "2019-01-02 22:00:00",
-        status: "open"
-    }].map(v => `<div class="single_activity ${v.status}">
-    <span class="host">${v.host}</span>
-    <span class="activity_title">[${v.title}]</span>
-    <span>${v.time}</span>
-    <span class="status"></span>
-    </div>`))
+    // $("#lobby").html([{
+    //     host: "host name",
+    //     title: "Title",
+    //     time: "2019-01-02 22:00:00",
+    //     status: "open"
+    // }].map(v => `<div class="single_activity ${v.status}">
+    // <span class="host">${v.host}</span>
+    // <span class="activity_title">[${v.title}]</span>
+    // <span>${v.time}</span>
+    // <span class="status"></span>
+    // </div>`))
 })
