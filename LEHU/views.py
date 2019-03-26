@@ -12,6 +12,7 @@ from django.db.models import Q
 from .recommend import recommend_store
 import json
 from .models import Activity,User,Participant,Message,Store
+import random
 
 # def index(request):
 #     return HttpResponse('hello')
@@ -29,10 +30,10 @@ class ActivityPostView(generic.CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['owner'] = self.request.session.get('logname',None)
-        # if context['owner'] == None:
-        #     context['login'] = 0
-        # else:
-        #     context['login'] = 1
+        if context['owner'] == None:
+            context['login'] = 0
+        else:
+            context['login'] = 1
         return context
 
     def form_valid(self, form):
@@ -534,9 +535,33 @@ def refresh_recommend(request,have_messgae):
 
 @auth
 def main(request,have_message):
-    Activity.objects.order_by('-pub_date')[:5]
-    recommend_list = recommend_store(request)
-    return render(request,'index_new.html',{'recommend':recommend_list,'Have_message':have_message})
+    if request.method == 'GET':
+        Session_logname = request.session.get('logname',None)
+        Select_activity = Activity.objects.order_by('-pub_date').filter(~Q(owner=Session_logname))[:5]
+        select_activity  = []
+        for i in Select_activity:
+            select_activity.append(i.to_dict())
+
+
+        recommend_list = recommend_store(request)
+        return render(request,'index_new.html',{'recommend':recommend_list,'Have_message':have_message
+
+                                                ,'object_list':select_activity})
+    else:
+        Session_logname = request.session.get('logname',None)
+        Select_activity = Activity.objects.order_by('-pub_date').filter(~Q(owner=Session_logname))[:100]
+        recommend_num = []
+        for i in range(5):
+            recommend_num.append(random.randint(0,len(Select_activity)-1))
+
+        select_activity  = []
+        recommend_num = list(set(recommend_num))
+        random.shuffle(recommend_num)
+        for i in recommend_num:
+            select_activity.append(Select_activity[i].to_dict())
+        print(select_activity[0]['pub_date'])
+
+        return HttpResponse(json.dumps(select_activity, indent=4, sort_keys=True, default=str))
 
 
 

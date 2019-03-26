@@ -112,6 +112,9 @@ class Activity(models.Model):
         information_dict = {}
         information_dict['activity_id'] = self.activity_id
         information_dict['activity_title'] = self.activity_title
+        information_dict['location'] = self.location
+        information_dict['pub_date'] = self.pub_date.strftime('%Y, %B %d,  %H:%M')
+        information_dict['Category'] = self.Category
 
         return information_dict
 

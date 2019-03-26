@@ -68,16 +68,20 @@
             <a href="./search.html"><img src="/static/assest/search.svg" alt="search" height ="25px" width="25px"></a> -->
         </div>
         <h5>LOBBY</h5>
-        <div id="lobby" background-color="white">
-            <ul>
+         <img src="/static/assest/refresh.svg" id="refresh_activity">
+        <div id="lobby">
                 {% for activity in object_list %}
-                <li>{{ activity.pub_date|date }} - <a href="{% url 'detail' activity.activity_id %}">{{ activity.activity_title }}</a></li>
+                <div><a href="/details/{{activity.activity_id}}/register">{{ activity.pub_date }}  &nbsp;- &nbsp;
+                  {{ activity.activity_title }}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Category:&nbsp;{{ activity.get_Category_display }} &nbsp; &nbsp;
+                  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;Location:&nbsp;{{activity.location}}</a> </div>
                     {% empty %}
-                    <li>No activity yet.</li>
+                    <div>No activity yet.<div>
                 {% endfor %}
                  <!-- <a class="btn btn-primary" href="{% url 'activitypost' %}"> Create New</a> -->
-            </ul>
+
         </div>
+
     </div>
 </body>
 
