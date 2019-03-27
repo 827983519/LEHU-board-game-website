@@ -53,35 +53,13 @@ $(function () {
           default:
            category = 'Others';
           }
-              pic1[i].children[0].innerHTML =  msg[i].pub_date+'&nbsp;-&nbsp'+ msg[i].activity_title + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+'Category: '+category + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+'Location: '+msg[i].location;
+              pic1[i].children[0].innerHTML =  msg[i].start_date+"-" + msg[i].start_time+ '&nbsp;&nbsp;-&nbsp;&nbsp'+ '['+msg[i].activity_title + ']'+ "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+'Category: '+category + "&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;"+'Location: '+msg[i].location;
               pic1[i].children[0].href = "/details/" +  msg[i].activity_id + '/register'
               pic1[i].style.display="";
 
 
             }
-          // i.innerText =
-          // console.log(msg[i].activity_title);
-          // pic1.innerText=msg[i].activity_title;
-          // console.log(pic1[i]);
 
-       //  var pic2 = document.getElementById("pic2");
-       //  var pic3 = document.getElementById("pic3");
-       //  var pic4 = document.getElementById("pic4");
-       //
-       // document.getElementById("intro1").innerText = msg[0].Store_name+'\n'+msg[0].Location
-       // document.getElementById("intro2").innerText = msg[1].Store_name+'\n'+msg[1].Location
-       // document.getElementById("intro3").innerText = msg[2].Store_name+'\n'+msg[2].Location
-       // document.getElementById("intro4").innerText = msg[3].Store_name+'\n'+msg[3].Location
-       //
-       //  pic1.href="http://" +msg[0].Website;
-       //  pic2.href="http://" +msg[1].Website;
-       //  pic3.href="http://" +msg[2].Website;
-       //  pic4.href="http://" +msg[3].Website;
-       //
-       //  pic1.children[0].src = "/static/media/" + msg[0].Picture;
-       //  pic2.children[0].src = "/static/media/" + msg[1].Picture;
-       //  pic3.children[0].src = "/static/media/" + msg[2].Picture;
-       //  pic4.children[0].src = "/static/media/" + msg[3].Picture;
 
       }, "json");
 

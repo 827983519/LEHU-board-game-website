@@ -71,9 +71,9 @@
          <img src="/static/assest/refresh.svg" id="refresh_activity">
         <div id="lobby">
                 {% for activity in object_list %}
-                <div><a href="/details/{{activity.activity_id}}/register">{{ activity.pub_date }}  &nbsp;- &nbsp;
-                  {{ activity.activity_title }}&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Category:&nbsp;{{ activity.get_Category_display }} &nbsp; &nbsp;
+                <div><a href="/details/{{activity.activity_id}}/register">{{ activity.start_date}}-{{activity.start_time}}&nbsp; - &nbsp;
+                  [{{ activity.activity_title }}]&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Category:&nbsp;{{ activity.Category }} &nbsp; &nbsp;
                   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;Location:&nbsp;{{activity.location}}</a> </div>
                     {% empty %}
                     <div>No activity yet.<div>

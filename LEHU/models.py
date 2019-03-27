@@ -113,8 +113,17 @@ class Activity(models.Model):
         information_dict['activity_id'] = self.activity_id
         information_dict['activity_title'] = self.activity_title
         information_dict['location'] = self.location
-        information_dict['pub_date'] = self.pub_date.strftime('%Y, %B %d,  %H:%M')
-        information_dict['Category'] = self.Category
+        information_dict['start_date'] = self.start_date.strftime('%Y-%B %d')
+        information_dict['start_time'] = self.start_time.strftime('%H:%M')
+
+        if self.Category == 1:
+            information_dict['Category'] = 'Card'
+        if self.Category == 2:
+            information_dict['Category'] = 'Chess'
+        if self.Category == 3:
+            information_dict['Category'] = 'BoardGames'
+        if self.Category == 4:
+            information_dict['Category'] = 'Others='
 
         return information_dict
 

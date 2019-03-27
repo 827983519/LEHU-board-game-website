@@ -67,10 +67,6 @@ button.custom.unselected {
     margin-right: 15px;
 }
 
-#box
-{
-  width: 250px;
-}
 
 .field>.input {
     flex-grow: 1;

@@ -11,9 +11,26 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
 from .recommend import recommend_store
 import json
+import datetime
 from .models import Activity,User,Participant,Message,Store
 import random
 
+
+
+
+
+
+def auth(func):
+    def inner(request,*args,**kwargs):
+        Session_logname = request.session.get('logname',None)
+        if not Session_logname:
+            return redirect('/login')
+
+        Select_message = Message.objects.filter(To=Session_logname).filter(Have_read=0)
+        if len(Select_message) > 0:
+           return func(request,1,*args,**kwargs)
+        return func(request,0,*args,**kwargs)
+    return inner
 # def index(request):
 #     return HttpResponse('hello')
 # @auth
@@ -22,35 +39,55 @@ class IndexView(generic.ListView):
 
 
 
-class ActivityPostView(generic.CreateView):
-    model = Activity
-    template_name = 'post.html'
-    fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['owner'] = self.request.session.get('logname',None)
-        if context['owner'] == None:
-            context['login'] = 0
-        else:
-            context['login'] = 1
-        return context
-
-    def form_valid(self, form):
-        # form.instance.owner = self.request.user
-        form.instance.owner = self.request.session.get('logname',None)
-        self.object = form.save()
-    # do something with self.object
-    # remember the import: from django.http import HttpResponseRedirect
-        # return HttpResponseRedirect('/index')
-
-# class PostListView(generic.ListView):
+# class ActivityPostView(generic.CreateView):
 #     model = Activity
-#     template_name = 'LEHU/index.html'
-#     context_object_name = 'latest_activity'
+#     template_name = 'post.html'
+#     fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
 #
-#     def get_queryset(self):
-#         return Activity.objects.order_by('-pub_date')[:5]
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['owner'] = self.request.session.get('logname',None)
+#
+#
+#     def form_valid(self, form):
+#         form.instance.owner = self.request.session.get('logname',None)
+#         self.object = form.save()
+class PostForm(Form):
+    title = fields.CharField(required=True)
+    people =  fields.IntegerField(required=True)
+    time =  fields.DateTimeField(required=True,input_formats=['%Y-%m-%dT%H:%M'])
+    budget = fields.IntegerField(required=True)
+    location = fields.CharField(required=True)
+    content = fields.CharField(required=True)
+    category = fields.IntegerField(required=True)
+
+@auth
+def post(request,have_message):
+    if request.method == 'GET':
+        return render(request,'post_new.html',{'Have_message':have_message})
+    else:
+        Session_logname = request.session.get('logname',None)
+
+        input = PostForm(request.POST)
+        a = {'user':'fail','msg':'Please fill in all information correctly'}
+
+        if not input.is_valid():
+            # print('in_valuedinput',input.cleaned_data)
+            print(input.errors)
+            return HttpResponse(json.dumps(a))
+        else:
+            a = {'user':'correct','msg':'Please fill in all information correctly'}
+            activity = Activity.objects.create(owner = Session_logname,numberofmem = input.cleaned_data['people'],
+                                        activity_title = input.cleaned_data['title'], budget =input.cleaned_data['budget'] ,
+                                        start_date =  input.cleaned_data['time'].date(),
+                                        start_time = input.cleaned_data['time'].time(),
+                                        location = input.cleaned_data['location'],
+                                         activity_content = input.cleaned_data['content'],
+                                        Category = input.cleaned_data['category'] )
+
+        return HttpResponse(json.dumps(a))
+
+
 
 
 class PostDetailView(generic.DetailView):
@@ -230,19 +267,6 @@ class registerForm(Form):
     gender = fields.CharField(max_length = 7,required=True)
 
 
-
-
-def auth(func):
-    def inner(request,*args,**kwargs):
-        Session_logname = request.session.get('logname',None)
-        if not Session_logname:
-            return redirect('/login')
-
-        Select_message = Message.objects.filter(To=Session_logname).filter(Have_read=0)
-        if len(Select_message) > 0:
-           return func(request,1,*args,**kwargs)
-        return func(request,0,*args,**kwargs)
-    return inner
 
 
 
@@ -559,8 +583,7 @@ def main(request,have_message):
         random.shuffle(recommend_num)
         for i in recommend_num:
             select_activity.append(Select_activity[i].to_dict())
-        print(select_activity[0]['pub_date'])
-
+        print(select_activity)
         return HttpResponse(json.dumps(select_activity, indent=4, sort_keys=True, default=str))
 
 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/static/css/public.css" />
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <link rel="stylesheet" href="/static/css/post.css" />
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="/static/js/header.js"></script>
+    <script src="/static/js/post.js"></script>
+    <title>Post</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="/static/assest/mainpage logo.svg" />
+        </div>
+        <div class="nav">
+          <a href="/logout"><img src="/static/assest/log out icon.svg" id="logout" /></a>
+          <a href="/profile"><img src="/static/assest/profile icon.svg" id="profile" /></a>
+          {%if Have_message == 0%}
+          <a href="/message"><img src="/static/assest/message+icon.svg" id="group" /></a>
+          {%else%}
+          <a href="/message"><img src="/static/assest/message+icon+new.svg" id="group" /></a>
+          {%endif%}
+          <a href="/activity"><img src="/static/assest/activity icon.svg" id="activities" /></a>
+          <a href="/post"><img src="/static/assest/post icon.svg" id="post" /></a>
+        </div>
+    </div>
+    <div class="content">
+        <div id="head">
+            <div>POST</div>
+        </div>
+        <div id="body">
+            <form id="Info">
+                <div class="field">
+                    <label for="locaton">Activity Title</label>
+                    <div class="input">
+                        <input type="text" name="title" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="game_type">Catogory</label>
+                    <div class="input">
+                        <select name="category">
+                        <option value=1>Card</option>
+                        <option value=2>Chess</option>
+                        <option value=3>Boardgames</option>
+                        <option value=4>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+
+          <div class="field">
+              <label for="description">Activity contents</label>
+              <div class="input">
+                  <textarea name="content" rows="10"></textarea>
+              </div>
+              </div>
+                <div class="field">
+                    <label for="people"># of People</label>
+                    <div class="input">
+                        <input type="text" name="people" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Time</label>
+                    <div id="start" class="input time">
+                        <!-- <select name="month"></select>
+                        <select name="day">
+                            <option value="" disabled selected hidden>[DD]</option>
+                        </select>
+                        <select name="hour"></select> -->
+                        <input type='datetime-local' name='start_date'>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="Budget">Budget</label>
+                    <div class="input">
+                        <input type="text" name="budget" />
+                    </div>
+                </div>
+
+
+                  <div class="field">
+                      <label for="Location">Location</label>
+                      <div class="input">
+                          <input type="text" name="location" />
+                      </div>
+                  </div>
+
+
+            </form>
+            <div>
+                <img id="confirm" src="/static/assest/post icon_1.svg" />
+                <img id="cancel" src="/static/assest/cancel icon(1).svg" />
+            </div>
+        </div>
+    </div>
+    <div id="clear">
+        <div>
+            <img src="/static/assest/clear mark.svg">
+            <div>You post has been published successfully!</div>
+        </div>
+    </div>
+</body>
+
+</html>
