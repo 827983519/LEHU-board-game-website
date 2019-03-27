@@ -34,5 +34,9 @@ Profile
 <img src='profile1.png'>
 <img src='profile2.png'>
 
+Search
+-----
+<img src='search.png'>
+
 To be continue....
 ----
