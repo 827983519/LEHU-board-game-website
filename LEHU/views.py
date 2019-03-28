@@ -72,8 +72,7 @@ def post(request,have_message):
         a = {'user':'fail','msg':'Please fill in all information correctly'}
 
         if not input.is_valid():
-            # print('in_valuedinput',input.cleaned_data)
-            print(input.errors)
+            # print(input.errors)
             return HttpResponse(json.dumps(a))
         else:
             a = {'user':'correct','msg':'Please fill in all information correctly'}
@@ -108,13 +107,9 @@ def join(request, activity_id):
         owner = activity.owner
         activity_id = activity.activity_id
         activity_title = activity.activity_title
-        #if status != 1 or owner == request.session.get('logname',None):
+
         if status != 1:
             return redirect('/join_fail')
-            # messages.error(request, "Error")
-            # return render(request, 'LEHU/PostDetail.html', {
-            #     'error_message': "Selected activity is not available.",
-            # })
         else:
             try:
                 #user_input = request.POST.get('mytextbox')
@@ -387,7 +382,8 @@ def login(request):
 
 def register(request):
     if request.method == "GET":
-        logout(request)
+        request.session.clear()
+        request.session.clear_expired()
         return render(request,'register_new.html')
 
     if request.method == "POST":
