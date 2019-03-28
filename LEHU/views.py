@@ -17,9 +17,6 @@ import random
 
 
 
-
-
-
 def auth(func):
     def inner(request,*args,**kwargs):
         Session_logname = request.session.get('logname',None)
@@ -38,20 +35,6 @@ class IndexView(generic.ListView):
     template_name = 'LEHU/index.html'
 
 
-
-# class ActivityPostView(generic.CreateView):
-#     model = Activity
-#     template_name = 'post.html'
-#     fields = ('activity_title','Category','activity_content','numberofmem','start_date','start_time','budget','location')
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['owner'] = self.request.session.get('logname',None)
-#
-#
-#     def form_valid(self, form):
-#         form.instance.owner = self.request.session.get('logname',None)
-#         self.object = form.save()
 class PostForm(Form):
     title = fields.CharField(required=True)
     people =  fields.IntegerField(required=True)
@@ -96,7 +79,9 @@ class PostDetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        object = Participant.objects.filter(activity_id=context['activity'])
         context['now'] = timezone.now()
+        context['jointpeople'] = len(object)
         return context
 
 
@@ -140,30 +125,6 @@ def join(request, activity_id):
 class JoinFailedView(generic.TemplateView):
     # model = Activity
     template_name = 'LEHU/Join_fail.html'
-
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['now'] = timezone.now()
-    #     return context
-
-# def modify(request, activity_id):
-#         activity = get_object_or_404(Activity, pk=activity_id)
-#         print(type(activity))
-#         try:
-#             user_input = request.POST.get('mytextbox')
-#         except (KeyError, user_input.DoesNotExist):
-#             # Redisplay the question voting form.
-#             return render(request, 'LEHU/PostDetail.html', {
-#                 'error_message': "You didn't enter input.",
-#             })
-#         else:
-#             activity_instance = Participant.objects.create_activity(activity, user_input)
-#             #participant_instance = Participant.objects.create_participant(user_input)
-#             activity_instance.save()
-
-#             return HttpResponseRedirect('/index')
-#             # return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
-
 
 
 class ActivityUpdateView(generic.UpdateView, SuccessMessageMixin):

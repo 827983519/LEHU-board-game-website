@@ -103,7 +103,7 @@
 #info {
     padding: 0 16px;
     flex-grow: 1;
-	text-align: center;
+	text-align: left;
 }
 
 #info>h1 {
@@ -148,3 +148,5 @@
     width: 100%;
     border-radius: 18px;
 }
+
+a {text-decoration: none;}

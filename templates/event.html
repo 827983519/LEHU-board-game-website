@@ -52,7 +52,7 @@
             <div id="people">
                 <label id="HOST"><b>HOST</b></label>
                 <div id="big_circle"></div>
-                <label id="host_name">{{ object.owner }}</label>
+                <a href='/pdetail/{{ object.owner }}'><label id="host_name">{{ object.owner }}</label></a>
                 <div></div>
                 <!-- <label id="Registered">Registered</label>
                 <div id="small_circle1"></div>
@@ -72,7 +72,7 @@
                 <div class="field">
                     <label for="bio">Location :</label>
                     <div class="value" name="bio"> {{ object.location }} </div>
-                    <div class="input"> 
+                    <div class="input">
                         <!-- <input type="text"> -->
                         <!-- <input type="text"> {{ object.location }} </input> -->
                         <!-- <p>{{ object.location }}</p> -->
@@ -81,14 +81,23 @@
                 <div class="field">
                     <label for="bio">Budget :</label>
                     <div class="value" name="bio"> {{ object.budget }} </div>
-                    <div class="input"> 
+                    <div class="input">
                         <input type="text">
                     </div>
                 </div>
                 <div class="field">
-                    <label for="bio">Number of people :</label>
+                    <label for="bio">Maximum number of people :</label>
                     <div class="value" name="bio"> {{ object.numberofmem }} </div>
-                    <div class="input"> 
+                    <div class="input">
+                            <!-- <input type="text"> -->
+                            <!-- <input type="text"> {{ object.location }} </input> -->
+                            <!-- <p>{{ object.location }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="bio">Number of joint people :</label>
+                    <div class="value" name="bio"> {{ jointpeople }} </div>
+                    <div class="input">
                             <!-- <input type="text"> -->
                             <!-- <input type="text"> {{ object.location }} </input> -->
                             <!-- <p>{{ object.location }}</p> -->
