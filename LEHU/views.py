@@ -72,17 +72,64 @@ def post(request,have_message):
 
 
 
-class PostDetailView(generic.DetailView):
+# class PostDetailView(generic.DetailView):
+#     model = Activity
+#     #template_name = 'LEHU/PostDetail.html'
+#     template_name = 'event.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         object = Participant.objects.filter(activity_id=context['activity'])
+#         context['now'] = timezone.now()
+#         context['jointpeople'] = len(object)
+#         return context
+
+
+class HostDetailView(generic.DetailView):
     model = Activity
     #template_name = 'LEHU/PostDetail.html'
-    template_name = 'event.html'
+    template_name = 'event_host.html'
+
+    def get_context_data(self, **kwargs):
+        Session_logname = self.request.session.get('logname',None)
+        context = super().get_context_data(**kwargs)
+        object = Participant.objects.filter(activity_id=context['activity'])
+        Select_message = Message.objects.filter(To=Session_logname).filter(Have_read=0)
+        joint_people = []
+        for i in object:
+            joint_people.append(i.participant)
+        if len(Select_message) > 0:
+            context['have_message']=1
+        else:
+            context['have_message']=0
+        context['now'] = timezone.now()
+        context['jointpeople'] = len(object)
+        context['peoplelist'] = joint_people
+        return context
+
+class ParticipantDetailView(generic.DetailView):
+    model = Activity
+    #template_name = 'LEHU/PostDetail.html'
+    template_name = 'event_participant.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        Session_logname = self.request.session.get('logname',None)
         object = Participant.objects.filter(activity_id=context['activity'])
+        is_joint = 0
+        for i in object:
+            if i.participant == Session_logname:
+                is_joint = 1
+        Select_message = Message.objects.filter(To=Session_logname).filter(Have_read=0)
+        if len(Select_message) > 0:
+            context['have_message']=1
+        else:
+            context['have_message']=0
         context['now'] = timezone.now()
         context['jointpeople'] = len(object)
+        context['is_joint'] = is_joint
         return context
+
 
 
 def join(request, activity_id):
@@ -119,7 +166,7 @@ def join(request, activity_id):
                 message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext, activity_title,2)
                 message_instance.save()
 
-                return HttpResponseRedirect('/index')
+                return HttpResponseRedirect('/activity')
                 # return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
 class JoinFailedView(generic.TemplateView):
@@ -161,33 +208,23 @@ class ActivityUpdateView(generic.UpdateView, SuccessMessageMixin):
 
 
 def cancel(request, activity_id):
-        #activity = get_object_or_404(Activity, pk=activity_id)
-        #user_input = request.POST.get('mytextbox')
         user_id = request.session.get('logname',None)
         activity = get_object_or_404(Activity, pk=activity_id)
         activity_id = activity.activity_id
-        #print(type(activity_id))
-        #activity = get_object_or_404(Activity, pk=activity_id)
         owner = activity.owner
         activity_title = activity.activity_title
         participant = Participant.objects.get_all_participant(activity_id)
-        #Activity.objects.filter(activity_id=activity_id).delete()
-        #print(participant)
         for person in participant:
             messagetext = "has cancelled"
             person = str(person)
             print(person)
-            message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, activity_title, 4)
+            message_instance = Message.objects.create(Activity_id=activity_id, From=owner, To=person, Content=messagetext, Title=activity_title,Catagory=4)
             message_instance.save()
-        #success_url = self.get_success_url()
         Activity.objects.filter(activity_id=activity_id).delete()
-        return HttpResponseRedirect('/index')
+        return HttpResponseRedirect('/activity')
 
 
 def quit(request, activity_id):
-        #activity = get_object_or_404(Activity, pk=activity_id)
-        #user_input = request.POST.get('mytextbox')
-
         user_id = request.session.get('logname',None)
         instance = Participant.objects.find_activity(activity_id=activity_id, participant = user_id)
         #participant = get_object_or_404(Participant, activity_id=activity_id, participant = user_input)
@@ -199,12 +236,16 @@ def quit(request, activity_id):
         activity_title = activity.activity_title
 
         messagetext = "has quitted"
-        message_instance = Message.objects.create_message(activity_id, user_id, owner, messagetext, activity_title, 1)
+        message_instance = Message.objects.create(Activity_id=activity_id, From=user_id, To=owner,
+                                                        Content=messagetext, Title=activity_title, Catagory=1)
         message_instance.save()
 
         if status == 3:
-            Activity.objects.filter(pk=activity_id).update(status=1)
-        return HttpResponseRedirect('/index')
+            activity.status = 1
+            activity.save()
+
+        return HttpResponseRedirect('/activity')
+
 
 
 

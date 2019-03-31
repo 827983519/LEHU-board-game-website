@@ -34,13 +34,12 @@
     display: none;
 }
 
-#cancel {
+/* #cancel {
     position: absolute;
     right: 0;
     bottom: 3px;
-    display: none;
     height: 33px;
-}
+} */
 
 #body {
     display: flex;
@@ -149,4 +148,4 @@
     border-radius: 18px;
 }
 
-a {text-decoration: none;}
+a {text-decoration: none; color:white;}

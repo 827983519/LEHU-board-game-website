@@ -6,3 +6,4 @@ from .Profile import *
 from .Search import *
 from .Mainpage import *
 from .Post import *
+from .JoinAndQuit import *

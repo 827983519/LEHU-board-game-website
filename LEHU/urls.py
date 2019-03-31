@@ -20,11 +20,14 @@ urlpatterns = [
     # url('^post', views.ActivityPostView.as_view(), name='activitypost'),
     url('^post', views.post, name='activitypost'),
     # url('^index', views.PostListView.as_view(), name = 'postlist'),
-    path('details/<int:pk>/register', views.PostDetailView.as_view(), name = 'detail'),
+    # path('details/<int:pk>/register', views.PostDetailView.as_view(), name = 'detail'),
     path('details/<int:activity_id>/join', views.join, name='join'),
     path('details/<int:pk>/update', views.ActivityUpdateView.as_view(), name = 'update'),
     path('details/<int:activity_id>/cancel', views.cancel, name='cancel'),
     path('details/<int:activity_id>/quit', views.quit, name='quit'),
     path('join_fail', views.JoinFailedView.as_view(), name='join_fail'),
+    path('details/<int:pk>/host', views.HostDetailView.as_view(), name = 'detail'),
+    path('details/<int:pk>/register', views.ParticipantDetailView.as_view(), name = 'detail'),
+
     url('^$',views.main,name='main'),
 ]

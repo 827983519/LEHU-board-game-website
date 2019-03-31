@@ -123,7 +123,7 @@ class Activity(models.Model):
         if self.Category == 3:
             information_dict['Category'] = 'BoardGames'
         if self.Category == 4:
-            information_dict['Category'] = 'Others='
+            information_dict['Category'] = 'Others'
 
         return information_dict
 

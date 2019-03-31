@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/css/public.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/event.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="/static/js/header.js"></script>
+    <script src="/static/js/event.js"></script>
+    <title>Event</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="/"><img src="/static/assest/mainpage logo.svg"></a>
+        </div>
+        <div class="nav">
+          <a href="/logout"><img src="/static/assest/log out icon.svg" id="logout" /></a>
+          <a href="/profile"><img src="/static/assest/profile icon.svg" id="profile" /></a>
+          {%if have_message == 0%}
+          <a href="/message"><img src="/static/assest/message+icon.svg" id="group" /></a>
+          {%else%}
+          <a href="/message"><img src="/static/assest/message+icon+new.svg" id="group" /></a>
+          {%endif%}
+          <a href="/activity"><img src="/static/assest/activity icon.svg" id="activities" /></a>
+          <a href="/post"><img src="/static/assest/post icon.svg" id="post" /></a>
+        </div>
+    </div>
+    <div class="content">
+      <div id="head">
+          <h1>EVENT DETAIL</h1>
+          <form action="{% url 'cancel' object.activity_id %}" method="post">{% csrf_token %}
+              <button class="btn warning" id="quit" type="submit"> Cancel </button>
+
+          </form>
+      </div>
+        <div id="body">
+            <div id="people">
+                <label id="HOST"><b>HOST</b></label>
+                <div id="big_circle"></div>
+                <a href='/pdetail/{{ object.owner }}'><label id="host_name">{{ object.owner }}</label></a>
+                <div></div>
+                <!-- <label id="Registered">Registered</label>
+                <div id="small_circle1"></div>
+                <div id="small_circle2"></div>
+                <div id="small_circle3"></div> -->
+            </div>
+            <div id="info">
+                <h1>{{ object.activity_title }}</h1>
+                <div class="field">
+                    <label for="username">Time :</label>
+                    <div class="value" name="username">{{ object.start_date }} {{ object.start_time }}</div>
+                    <!-- <div class="input">
+                        <div>{{ object.start_date }}</div>
+                        <p>{{ object.start_time }}</p>
+                    </div> -->
+                </div>
+                <div class="field">
+                    <label for="bio">Location :</label>
+                    <div class="value" name="bio"> {{ object.location }} </div>
+                    <div class="input">
+                        <!-- <input type="text"> -->
+                        <!-- <input type="text"> {{ object.location }} </input> -->
+                        <!-- <p>{{ object.location }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="bio">Budget :</label>
+                    <div class="value" name="bio"> {{ object.budget }} </div>
+                    <div class="input">
+                        <input type="text">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="bio">Maximum number of people :</label>
+                    <div class="value" name="bio"> {{ object.numberofmem }} </div>
+                    <div class="input">
+                            <!-- <input type="text"> -->
+                            <!-- <input type="text"> {{ object.location }} </input> -->
+                            <!-- <p>{{ object.location }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="bio">Number of joint people :</label>
+                    <div class="value" name="bio"> {{ jointpeople }} </div>
+                    <div class="input">
+                            <!-- <input type="text"> -->
+                            <!-- <input type="text"> {{ object.location }} </input> -->
+                            <!-- <p>{{ object.location }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="favorite">Games to play :</label>
+                    <div class="value" name="favorite">{{ object.get_Category_display }}</div>
+                    <div class="input">
+                        <input type="text">
+                        <!-- <p>{{ object.get_Category_display }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="favorite">Description :</label>
+                    <div class="value" name="favorite">{{ object.activity_content }}</div>
+                    <div class="input">
+                        <input type="text">
+                        <!-- <p>{{ object.activity_content }}</p> -->
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="favorite">People who have joint:</label>
+                    {%for i in peoplelist%}
+                    <a href="/pdetail/{{i}} "><div>{{ i }}&nbsp;&nbsp;&nbsp;</div> </a>
+                    {%endfor%}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
