@@ -38,5 +38,9 @@ Search
 -----
 <img src='search.png'>
 
+Event
+-----
+<img src='event.png'>
+
 To be continue....
 ----
