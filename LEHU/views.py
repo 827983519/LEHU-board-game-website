@@ -72,18 +72,6 @@ def post(request,have_message):
 
 
 
-# class PostDetailView(generic.DetailView):
-#     model = Activity
-#     #template_name = 'LEHU/PostDetail.html'
-#     template_name = 'event.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         object = Participant.objects.filter(activity_id=context['activity'])
-#         context['now'] = timezone.now()
-#         context['jointpeople'] = len(object)
-#         return context
-
 
 class HostDetailView(generic.DetailView):
     model = Activity
@@ -109,7 +97,6 @@ class HostDetailView(generic.DetailView):
 
 class ParticipantDetailView(generic.DetailView):
     model = Activity
-    #template_name = 'LEHU/PostDetail.html'
     template_name = 'event_participant.html'
 
     def get_context_data(self, **kwargs):
@@ -144,16 +131,13 @@ def join(request, activity_id):
             return redirect('/join_fail')
         else:
             try:
-                #user_input = request.POST.get('mytextbox')
                 user_id = request.session.get('logname',None)
             except (KeyError, user_id.DoesNotExist):
-                # Redisplay the question voting form.
                 return render(request, 'LEHU/PostDetail.html', {
                     'error_message': "You didn't enter input.",
                 })
             else:
                 activity_instance = Participant.objects.create_activity(activity, user_id)
-                #participant_instance = Participant.objects.create_participant(user_input)
                 activity_instance.save()
 
                 c_member = Participant.objects.member_count(activity)
@@ -183,25 +167,19 @@ class ActivityUpdateView(generic.UpdateView, SuccessMessageMixin):
     success_url = reverse_lazy('postlist')
 
     def form_valid(self, form):
-        #form.instance.owner_user = self.request.user
-
         user_id = self.request.session.get('logname',None)
         print(user_id)
         activity = self.get_object()
         activity_id = activity.activity_id
-        #print(type(activity_id))
-        #activity = get_object_or_404(Activity, pk=activity_id)
         owner = activity.owner
         activity_title = activity.activity_title
         participant = Participant.objects.get_all_participant(activity_id)
-        #print(participant)
         for person in participant:
             messagetext = "has updated"
             person = str(person)
             print(person)
             message_instance = Message.objects.create_message(activity_id, owner, person, messagetext, activity_title, 3)
             message_instance.save()
-        #success_url = self.get_success_url()
 
         return super(ActivityUpdateView, self).form_valid(form)
 
@@ -214,6 +192,9 @@ def cancel(request, activity_id):
         owner = activity.owner
         activity_title = activity.activity_title
         participant = Participant.objects.get_all_participant(activity_id)
+        message_list = Message.objecs.filter(Activity_id=activity_id).delete()
+
+
         for person in participant:
             messagetext = "has cancelled"
             person = str(person)
@@ -227,7 +208,6 @@ def cancel(request, activity_id):
 def quit(request, activity_id):
         user_id = request.session.get('logname',None)
         instance = Participant.objects.find_activity(activity_id=activity_id, participant = user_id)
-        #participant = get_object_or_404(Participant, activity_id=activity_id, participant = user_input)
         instance.delete()
         activity = get_object_or_404(Activity, pk=activity_id)
         status = activity.status
@@ -340,7 +320,7 @@ def modify_profile(request,have_message):
         Select_user[0].user_nickname         = nickname
         Select_user[0].user_bio              = bio
         Select_user[0].user_favouritegame    = favourite
-        Select_user[0].user_email            = email
+        # Select_user[0].user_email            = email
         Select_user[0].user_province         = province
         Select_user[0].user_cellphone        = cellphone
 
@@ -361,20 +341,19 @@ def login(request):
     if request.method == "POST":
         input = loginForm(request.POST)
         a = {'user':'fail','msg':'Username or password is worng'}
-        #数据格式不合适,登录失败
+
         if not input.is_valid():
             return HttpResponse(json.dumps(a))
         Post_username = input.cleaned_data['username']
         Post_password = input.cleaned_data['password']
         Select_user = User.objects.filter(user_username=Post_username)
-        #username不存在,登录失败
+
         if len(Select_user) == 0:
             return HttpResponse(json.dumps(a))
 
-        #密码错误，登录失败
         if not check_password( Post_password,Select_user[0].user_password):
             return HttpResponse(json.dumps(a))
-        #登陆成功
+
         else:
             request.session['logname'] = Post_username
             a['user'] = 'success'
@@ -588,15 +567,11 @@ def main(request,have_message):
 
 
 def logout(request):
-    #del request.session['logname']
     request.session.clear()
     request.session.clear_expired()
     return redirect('/login')
 
 
-# def search(request):
-#     if request.method == 'GET':
-#         return render(request,'search.html')
 @auth
 def search(request,have_message):
     if 'q' in request.GET:

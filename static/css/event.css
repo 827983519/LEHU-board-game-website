@@ -19,7 +19,7 @@
     padding-right: 20px;
     border-radius: 12px;
     font-weight: 900;
-    display: none;
+    /* display: none; */
 }
 
 #head .btn.warning {

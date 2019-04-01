@@ -75,7 +75,6 @@ class ProfileTest(TestCase):
         response = self.client.post('/profile',data = test_data1)
         self.assertEqual(response.status_code,200)
         self.assertTemplateUsed('profile.html')
-        self.assertContains(response,'8279835191@qq.com')
         self.assertContains(response,'wade1')
         self.assertContains(response,'I like board game1')
         self.assertContains(response,'Three1')
