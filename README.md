@@ -3,7 +3,7 @@ LEHU-board-game-website
 
 ### Django website development. Board game website LEHU! User can post or search board game activity here! 
 
-## LEHU IP adress:3.18.85.251(Still working on it!)
+## LEHU IP adress:3.18.85.251(Not work on it!)
 
 Login
 -----
